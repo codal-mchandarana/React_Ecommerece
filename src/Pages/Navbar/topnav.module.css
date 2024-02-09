@@ -1,0 +1,28 @@
+.container{
+    background-color:  #111111;;
+}
+
+.heading{
+    margin-left: -1rem;
+}
+
+.topnav{
+   color: white;
+   display: flex;
+   justify-content: space-evenly;
+   font-family: "Nunito Sans", sans-serif;
+   font-size: 1rem;
+   align-items: center;
+   position: relative;
+   top: 0.5rem;
+   gap: 12rem;
+}
+
+
+.innerPortion{
+    display: flex;
+    cursor: pointer;
+    gap:3rem;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}

@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import HomePage from './Pages/HomePage/HomePage'
+import ItemPage, { loader as DataLoader } from './Pages/ItemPage/ItemPage'
+import Layout from './Layout'
+import CartContextProvider from './Store/CartContextProvider'
 
-function App() {
+// https://themewagon.github.io/malefashion/index.html
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, path: "/", element: <HomePage /> },
+      {
+        path: "/shop",
+        element: <ItemPage />,
+        loader: DataLoader
+      }
+    ]
+  },
+  {
+    path:"/cart"
+  }
+])
+
+const App: React.FC = (): JSX.Element => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CartContextProvider>
+        <div className="App">
+          <RouterProvider router={router} />
+        </div>
+      </CartContextProvider>
+    </>
   );
 }
 
