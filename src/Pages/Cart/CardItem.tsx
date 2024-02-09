@@ -1,7 +1,7 @@
-import Classes from './Card.module.css'
-import { ProductType } from '../../../../Interface/Product';
-import { useContext, useState } from 'react';
-import { CartContext } from '../../../../Store/CartContextProvider';
+import { ProductType } from '../../Interface/Product';
+import { CartContext } from '../../Store/CartContextProvider';
+import Classes from '../ItemPage/Components/SubComponents/Card.module.css'
+import { useContext } from 'react';
 
 const List = (rating: string) => {
 
@@ -26,17 +26,12 @@ interface card {
     data: ProductType,
 }
 
-const Card: React.FC<card> = ({ data }): JSX.Element => {
+const CartItem: React.FC<card> = ({ data }): JSX.Element => {
 
-    const { carts, AddItemCarts } = useContext(CartContext);
+    const { DeleteItemCarts } = useContext(CartContext);
 
-    const handleClick = (data: ProductType) => {
-        if (!carts.includes(data))
-            AddItemCarts(data);
-    }
-
-    const customstyle = {
-        "cursor":carts.includes(data)?"default":"pointer"
+    const handleDeleteClick = (id: number) => {
+        DeleteItemCarts(id);
     }
 
     return (
@@ -47,7 +42,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
                 </div>
                 <div className={Classes.product__item__text}>
                     <h6>{data.title}</h6>
-                    <a style={customstyle} onClick={() => { handleClick(data) }} href="#!">{!carts.includes(data)?"+ Add To Cart":"Added to the Cart"}</a>
+                    <a onClick={() => { handleDeleteClick(parseInt(data.id)) }} href="#!">- Remove from Cart</a>
                     <div className={Classes.rating}>
                         {List(data.rating)}
                     </div>
@@ -60,4 +55,4 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
 
     )
 }
-export default Card;
+export default CartItem;

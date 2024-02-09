@@ -1,9 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
 import Classes from './bottomnav.module.css'
+import { useContext } from 'react';
+import { CartContext } from '../../Store/CartContextProvider';
 
 const BottomNav: React.FC = ():JSX.Element => {
     const location = useLocation();
     const { pathname } = location;
+    const {carts} = useContext(CartContext);
+
+    let sum:number = 0;
+
+    for (let index = 0; index < carts.length; index++) {
+        sum += parseInt(carts[index].price)
+    }
 
     return (
         <div className={Classes.container}>
@@ -25,8 +34,8 @@ const BottomNav: React.FC = ():JSX.Element => {
             <div className={Classes.thirdportion}>
                 <a href="#"><img src="./img/icon/search.png" alt="" /></a>
                 <a href="#"><img src="./img/icon/heart.png" alt="" /></a>
-                <a href="#"><img src="./img/icon/cart.png" alt="" /></a>
-                <div>&#8377;0.00</div>
+                <Link to="/cart"><img src="./img/icon/cart.png" alt="" /></Link>
+                <div>&#8377;{sum}</div>
             </div>
 
         </div>

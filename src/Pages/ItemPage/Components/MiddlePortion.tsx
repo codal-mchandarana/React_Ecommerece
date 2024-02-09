@@ -16,7 +16,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", last: 0 });
 
-    console.log(edit)
+    // console.log(edit)
 
     useEffect(() => {
         setData(data1.products)
@@ -123,7 +123,6 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             if (value === "No Choice") {
                 if (edit.price !== "0" || edit.rating !== "0") {
                     if (edit.last === 1) {
-                        console.log("Hi")
                         changePrice(edit.price, 1)
                     }
                     else
@@ -151,17 +150,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 <div className="row mt-5 gx-5">
                     {data.map((item) => {
                         return (
-                            <Card
-                                id={item.id}
-                                key={parseInt(item.id)}
-                                title={item.title}
-                                description={item.description}
-                                price={item.price}
-                                rating={item.rating}
-                                brand={item.brand}
-                                images={item.images}
-
-                            />
+                            <Card data={item}/>
                         )
                     })}
                 </div>
