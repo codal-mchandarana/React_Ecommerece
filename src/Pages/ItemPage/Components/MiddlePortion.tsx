@@ -7,6 +7,7 @@ import { useLoaderData } from "react-router-dom";
 interface edit {
     price: string,
     rating: string,
+    brand: string,
     last: number
 }
 
@@ -14,9 +15,9 @@ const MiddlePortion: React.FC = (): JSX.Element => {
 
     const data1: any = useLoaderData();
     const [data, setData] = useState<ProductType[]>([])
-    const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", last: 0 });
+    const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
 
-    // console.log(edit)
+    console.log(edit)
 
     useEffect(() => {
         setData(data1.products)
@@ -75,48 +76,38 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     }
 
     const changeRating = (value: string, vari: number = 0, arr1: ProductType[] = []) => {
-        const arr: ProductType[] = sortDataRating(parseInt(value), vari, arr1)
+        const arr: ProductType[] = sortDataRating(parseInt(value), vari, arr1);
         setData(prev => [...arr]);
     }
 
-    /***********  Handle Change logic ***********/
+    /***********  Handle Change logic for Select ***********/
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
         const { name, value } = event.target;
-        isEdit((prev) => {
-            return { ...prev, [name]: value }
-        });
+        isEdit((prev) => { return { ...prev, [name]: value } });
 
         if (name === "price") {
             if (parseInt(value) === 0) {
                 if (edit.rating !== "0") {
                     changeRating(edit.rating)
-                    isEdit((prev) => {
-                        return { ...prev, last: 2 }
-                    })
+                    isEdit((prev) => { return { ...prev, last: 2 } })
                 }
             }
             else {
                 changePrice(value)
-                isEdit((prev) => {
-                    return { ...prev, last: 1 }
-                })
+                isEdit((prev) => { return { ...prev, last: 1 } })
             }
         }
         else if (name === "rating") {
             if (parseInt(value) === 0) {
                 if (edit.price !== "0") {
                     changePrice(edit.price);
-                    isEdit((prev) => {
-                        return { ...prev, last: 1 }
-                    })
+                    isEdit((prev) => { return { ...prev, last: 1 } })
                 }
             }
             else {
                 changeRating(value);
-                isEdit((prev) => {
-                    return { ...prev, last: 2 }
-                })
+                isEdit((prev) => { return { ...prev, last: 2 } })
             }
         }
         else {
@@ -124,15 +115,20 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 if (edit.price !== "0" || edit.rating !== "0") {
                     if (edit.last === 1) {
                         changePrice(edit.price, 1)
+                        isEdit(prev => { return { ...prev, last: 1 } })
                     }
-                    else
-                        changeRating(edit.rating, 1)
+                    else {
+                        changeRating(edit.rating, 1);
+                        isEdit(prev => { return { ...prev, last: 2 } })
+                    }
                 }
                 else {
                     setData(prev => [...data1.products])
                 }
             }
             else {
+                isEdit(prev => { return { ...prev, last: 3 } })
+
                 const arr: ProductType[] = brandFiltering(value)
                 if (edit.last === 1)
                     changePrice(edit.price, 2, arr)
@@ -143,14 +139,54 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         }
     }
 
+    /***********  Handle Change logic for Input ***********/
+
+    const inputChanging = (value: string) => {
+        let arr: ProductType[] = data;
+
+        arr = arr.filter((item) => {
+            return ((item.title).toLowerCase().includes(value) || (item.brand).toLowerCase().includes(value))
+        })
+
+        return arr;
+    }
+
+    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+
+        let arr: ProductType[];
+
+        if (value === "") {
+            arr = data1.products;
+            if (edit.last === 1) 
+                changePrice(edit.price, 1)
+
+            else if (edit.last === 2) 
+                changeRating(edit.rating, 1)
+
+            else {
+                if (edit.last === 3)
+                    arr = brandFiltering(edit.brand);
+                setData(prev => [...arr])
+            }
+
+        }
+        else
+            arr = inputChanging(value.toLowerCase());
+
+        setData((prev) => {
+            return [...arr]
+        });
+    }
+
     return (
         <>
-            <Filter handleChange={handleChange} len={data.length} />
+            <Filter handleChangeInput={handleChangeInput} handleChange={handleChange} len={data.length} />
             <div className="container">
                 <div className="row mt-5 gx-5">
                     {data.map((item) => {
                         return (
-                            <Card data={item}/>
+                            <Card data={item} />
                         )
                     })}
                 </div>

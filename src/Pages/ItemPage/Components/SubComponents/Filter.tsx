@@ -4,10 +4,11 @@ import { ProductType } from '../../../../Interface/Product';
 
 interface filter{
     len:number,
-    handleChange(event: React.ChangeEvent<HTMLSelectElement>):void
+    handleChange(event: React.ChangeEvent<HTMLSelectElement>):void,
+    handleChangeInput(event:React.ChangeEvent<HTMLInputElement>):void
 }
 
-const Filter: React.FC<filter> = ({len,handleChange}): JSX.Element => {
+const Filter: React.FC<filter> = ({len,handleChange,handleChangeInput}): JSX.Element => {
    
     const data:any = useLoaderData();
     let product_value: ProductType[] = data.products;
@@ -22,7 +23,7 @@ const Filter: React.FC<filter> = ({len,handleChange}): JSX.Element => {
                     <div className="col-lg-3">
                         <div className={Classes.shop__sidebar__search}>
                             <form action="#">
-                                <input type="text" placeholder="Search..." />
+                                <input name='search' onChange={handleChangeInput} type="text" placeholder="Search..." />
                                 <button type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>
                             </form>
                         </div>
