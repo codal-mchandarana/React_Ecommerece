@@ -1,6 +1,6 @@
 import Card from "./SubComponents/Card"
 import Filter from "./SubComponents/Filter";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
 import { useLoaderData } from "react-router-dom";
 
@@ -72,12 +72,12 @@ const MiddlePortion: React.FC = (): JSX.Element => {
 
     const changePrice = (value: string, vari: number = 0, arr1: ProductType[] = []) => {
         const arr: ProductType[] = sortDataPrice(parseInt(value), vari, arr1)
-        setData(prev => [...arr]);
+        return arr;
     }
 
     const changeRating = (value: string, vari: number = 0, arr1: ProductType[] = []) => {
         const arr: ProductType[] = sortDataRating(parseInt(value), vari, arr1);
-        setData(prev => [...arr]);
+        return arr;
     }
 
     /***********  Handle Change logic for Select ***********/
@@ -89,24 +89,28 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         if (name === "price") {
             if (parseInt(value) === 0) {
                 if (edit.rating !== "0") {
-                    changeRating(edit.rating)
+                    let arr: ProductType[] = changeRating(edit.rating);
+                    setData(prev => [...arr]);
                     isEdit((prev) => { return { ...prev, last: 2 } })
                 }
             }
             else {
-                changePrice(value)
+                let arr: ProductType[] = changePrice(value)
+                setData(prev => [...arr]);
                 isEdit((prev) => { return { ...prev, last: 1 } })
             }
         }
         else if (name === "rating") {
             if (parseInt(value) === 0) {
                 if (edit.price !== "0") {
-                    changePrice(edit.price);
+                    let arr: ProductType[] = changePrice(edit.price);
+                    setData(prev => [...arr]);
                     isEdit((prev) => { return { ...prev, last: 1 } })
                 }
             }
             else {
-                changeRating(value);
+                const arr: ProductType[] = changeRating(value);
+                setData(prev => [...arr]);
                 isEdit((prev) => { return { ...prev, last: 2 } })
             }
         }
@@ -114,13 +118,16 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             if (value === "No Choice") {
                 if (edit.price !== "0" || edit.rating !== "0") {
                     if (edit.last === 1) {
-                        changePrice(edit.price, 1)
+                        let arr: ProductType[] = changePrice(edit.price, 1);
+                        setData(prev => [...arr]);
                         isEdit(prev => { return { ...prev, last: 1 } })
                     }
                     else {
-                        changeRating(edit.rating, 1);
+                        const arr: ProductType[] = changeRating(edit.rating, 1);
+                        setData(prev => [...arr]);
                         isEdit(prev => { return { ...prev, last: 2 } })
                     }
+                    
                 }
                 else {
                     setData(prev => [...data1.products])
@@ -129,11 +136,11 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             else {
                 isEdit(prev => { return { ...prev, last: 3 } })
 
-                const arr: ProductType[] = brandFiltering(value)
+                let arr: ProductType[] = brandFiltering(value)
                 if (edit.last === 1)
-                    changePrice(edit.price, 2, arr)
+                    arr = changePrice(edit.price, 2, arr)
                 else if (edit.last === 2)
-                    changeRating(edit.rating, 2, arr);
+                    arr = changeRating(edit.rating, 2, arr);
                 setData(prev => [...arr])
             }
         }
@@ -158,17 +165,29 @@ const MiddlePortion: React.FC = (): JSX.Element => {
 
         if (value === "") {
             arr = data1.products;
-            if (edit.last === 1) 
-                changePrice(edit.price, 1)
+            let brand: boolean = false;
 
-            else if (edit.last === 2) 
-                changeRating(edit.rating, 1)
+            if (edit.brand !== "No Choice" && edit.last !== 0) {
+                brand = true;
+                arr = brandFiltering(edit.brand)
+            }
+
+            if (edit.last === 1) {
+                let vari: number = !brand ? 1 : 2;;
+                arr = changePrice(edit.price, vari, arr)
+            }
+
+            else if (edit.last === 2) {
+                let vari: number = !brand ? 1 : 2;
+                arr = changeRating(edit.rating, vari, arr)
+            }
 
             else {
                 if (edit.last === 3)
                     arr = brandFiltering(edit.brand);
-                setData(prev => [...arr])
             }
+
+            setData(prev => [...arr])
 
         }
         else
