@@ -167,12 +167,15 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             arr = data1.products;
             let brand: boolean = false;
 
-            if (edit.brand !== "No Choice" && edit.last !== 0) {
+            console.log()
+
+            if (edit.brand!=='0' && edit.brand !== "No Choice" && edit.last !== 0) {
                 brand = true;
                 arr = brandFiltering(edit.brand)
             }
 
             if (edit.last === 1) {
+                console.log("Hello",brand)
                 let vari: number = !brand ? 1 : 2;;
                 arr = changePrice(edit.price, vari, arr)
             }
@@ -186,6 +189,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 if (edit.last === 3)
                     arr = brandFiltering(edit.brand);
             }
+            console.log(arr)
 
             setData(prev => [...arr])
 
