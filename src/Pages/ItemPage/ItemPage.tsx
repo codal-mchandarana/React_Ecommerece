@@ -1,7 +1,7 @@
 import TopPortion from "./Components/TopPortion"
 import axios from 'axios'
 import MiddlePortion from "./Components/MiddlePortion"
-import { json, useLoaderData } from 'react-router-dom'
+import { json } from 'react-router-dom'
 
 const ItemPage: React.FC = (): JSX.Element => {
 

@@ -63,3 +63,12 @@
     position: relative;
     right: 1rem;
 }
+
+.number{
+    text-decoration: none;
+    color: black;
+    position: relative;
+    right: 11px;
+    top: 2px;
+    font-size: 0.8rem;
+}

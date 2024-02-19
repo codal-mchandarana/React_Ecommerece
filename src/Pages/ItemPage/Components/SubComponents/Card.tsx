@@ -1,7 +1,8 @@
 import Classes from './Card.module.css'
 import { ProductType } from '../../../../Interface/Product';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { CartContext } from '../../../../Store/CartContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 const List = (rating: string) => {
 
@@ -28,15 +29,21 @@ interface card {
 
 const Card: React.FC<card> = ({ data }): JSX.Element => {
 
-    const { carts, AddItemCarts } = useContext(CartContext);
+    const { carts, AddItemCarts, isLogin } = useContext(CartContext);
+    const navigate = useNavigate();
 
     const handleClick = (data: ProductType) => {
-        if (!carts.includes(data))
-            AddItemCarts(data);
+        if (!isLogin)
+            navigate('/login')
+        else {
+
+            if (!carts.includes(data))
+                AddItemCarts(data);
+        }
     }
 
     const customstyle = {
-        "cursor":carts.includes(data)?"default":"pointer"
+        "cursor": carts.includes(data) ? "default" : "pointer"
     }
 
     return (
@@ -47,7 +54,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
                 </div>
                 <div className={Classes.product__item__text}>
                     <h6>{data.title}</h6>
-                    <a style={customstyle} onClick={() => { handleClick(data) }} href="#!">{!carts.includes(data)?"+ Add To Cart":"Added to the Cart"}</a>
+                    <a style={customstyle} onClick={() => { handleClick(data) }} href="#!">{!carts.includes(data) ? "+ Add To Cart" : "Added to the Cart"}</a>
                     <div className={Classes.rating}>
                         {List(data.rating)}
                     </div>
