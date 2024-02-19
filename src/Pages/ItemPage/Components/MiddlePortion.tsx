@@ -17,7 +17,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
 
-    console.log(edit)
+    // console.log(edit)
 
     useEffect(() => {
         setData(data1.products)
@@ -167,15 +167,12 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             arr = data1.products;
             let brand: boolean = false;
 
-            console.log()
-
             if (edit.brand!=='0' && edit.brand !== "No Choice" && edit.last !== 0) {
                 brand = true;
                 arr = brandFiltering(edit.brand)
             }
 
             if (edit.last === 1) {
-                console.log("Hello",brand)
                 let vari: number = !brand ? 1 : 2;;
                 arr = changePrice(edit.price, vari, arr)
             }
@@ -189,7 +186,6 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 if (edit.last === 3)
                     arr = brandFiltering(edit.brand);
             }
-            console.log(arr)
 
             setData(prev => [...arr])
 

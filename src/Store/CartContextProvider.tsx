@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ProductType } from "../Interface/Product";
 
 /* Creating a Context */
@@ -25,24 +25,43 @@ export const CartContext = createContext<cartItems>({
     DeleteItemCarts: () => { }
 });
 
-
-
 /* Creating a context provider component */
 
 type Props = {
     children: JSX.Element,
 };
 const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
-
-    const [items, editItems] = useState<ProductType[]>([])
+    let arr: ProductType[] = [];
+    const [items, editItems] = useState<ProductType[]>(arr)
     const [login, setIslogin] = useState(false);
+
+    let currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        let tempoArr = localStorage.getItem(currentUser);
+        if (tempoArr)
+           arr = JSON.parse(tempoArr);
+    }
+
+    useEffect(()=>{
+        editItems(prev=>arr)
+    },[login])
+
 
     const AddItemCarts = (item: ProductType): void => {
         editItems(prevItems => [...prevItems, item])
+        let tempArr = items
+        tempArr.push(item)
+
+        if (currentUser)
+            localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
 
     const DeleteItemCarts = (id: number): void => {
-        editItems(prevItems => prevItems.filter((item) => parseInt(item.id) !== id))
+        editItems(prevItems => prevItems.filter((item) => parseInt(item.id) !== id));
+        let tempArr = items;
+        tempArr = tempArr.filter((item)=>parseInt(item.id)!==id);
+        if (currentUser)
+            localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
 
     const SetItemvalues = (items: ProductType[]): void => {
@@ -69,7 +88,6 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
                         setIslogin(true);
                 })
                 .catch(error => {
-                    console.log(error)
                     setIslogin(false);
                     localStorage.removeItem('token')
                 })

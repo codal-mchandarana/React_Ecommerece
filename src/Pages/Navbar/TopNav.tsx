@@ -13,6 +13,7 @@ const TopNav: React.FC = (): JSX.Element => {
 
     const logout=()=>{
         localStorage.removeItem('token');
+        localStorage.removeItem('currentUser')
         setIslogin(false);
     }
 

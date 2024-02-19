@@ -2,6 +2,7 @@ import { Form, useNavigate } from 'react-router-dom'
 import Classes from './Login.module.css'
 import { useContext } from 'react';
 import { CartContext } from '../../Store/CartContextProvider';
+import { ProductType } from '../../Interface/Product';
 
 const Login: React.FC = (): JSX.Element => {
 
@@ -24,6 +25,7 @@ const Login: React.FC = (): JSX.Element => {
         })
         if (user.status === 200) {
             let response = await user.json()
+            localStorage.setItem('currentUser',response.username)
             localStorage.setItem('token',response.token)
             setIslogin(true);
             navigate('/')
