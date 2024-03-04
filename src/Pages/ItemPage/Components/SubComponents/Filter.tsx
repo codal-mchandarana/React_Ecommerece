@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useRouteLoaderData } from 'react-router-dom'
 import Classes from './Filter.module.css'
 import { ProductType } from '../../../../Interface/Product';
 
@@ -10,7 +10,7 @@ interface filter{
 
 const Filter: React.FC<filter> = ({len,handleChange,handleChangeInput}): JSX.Element => {
    
-    const data:any = useLoaderData();
+    const data:any = useRouteLoaderData("mainPage");
     let product_value: ProductType[] = data.products;
 
     let brand_name:string[] = (product_value.map((item)=>{return item.brand})).filter((x,i,a)=>a.indexOf(x)===i)

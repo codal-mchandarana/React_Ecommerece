@@ -1,8 +1,8 @@
 import Card from "./SubComponents/Card"
 import Filter from "./SubComponents/Filter";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
-import { useLoaderData } from "react-router-dom";
+import {  useRouteLoaderData } from "react-router-dom";
 
 interface edit {
     price: string,
@@ -13,7 +13,7 @@ interface edit {
 
 const MiddlePortion: React.FC = (): JSX.Element => {
 
-    const data1: any = useLoaderData();
+    const data1: any = useRouteLoaderData("mainPage");
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
 
@@ -127,7 +127,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                         setData(prev => [...arr]);
                         isEdit(prev => { return { ...prev, last: 2 } })
                     }
-                    
+
                 }
                 else {
                     setData(prev => [...data1.products])
@@ -167,7 +167,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             arr = data1.products;
             let brand: boolean = false;
 
-            if (edit.brand!=='0' && edit.brand !== "No Choice" && edit.last !== 0) {
+            if (edit.brand !== '0' && edit.brand !== "No Choice" && edit.last !== 0) {
                 brand = true;
                 arr = brandFiltering(edit.brand)
             }

@@ -3,6 +3,7 @@ import { ProductType } from '../../../../Interface/Product';
 import { useContext } from 'react';
 import { CartContext } from '../../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
+import calculateOriginalPrice from '../../../../utils/Calculate';
 
 const List = (rating: string) => {
 
@@ -46,8 +47,12 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
         "cursor": carts.includes(data) ? "default" : "pointer"
     }
 
+    const handlePdpClick = (id: string) => {
+        navigate(`/pdp/${id}`)
+    }
+
     return (
-        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div onClick={() => { handlePdpClick(data.id) }} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
             <div className={Classes.product__item}>
                 <div className={Classes.product__item__pic}>
                     <img className={Classes.img} src={`${data.images[0]}`} alt="" />
@@ -60,7 +65,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
                     </div>
                     <p>{data.description.slice(0, 50)}...</p>
                     <p>{data.brand}</p>
-                    <h5>&#8377;{data.price}</h5>
+                    <h5><span style={{ textDecoration: "line-through" }}>&#8377;{data.price}</span><span style={{color:"red"}}> &#8377;{calculateOriginalPrice(data.price, data.discountPercentage)}</span></h5>
                 </div>
             </div>
         </div>
