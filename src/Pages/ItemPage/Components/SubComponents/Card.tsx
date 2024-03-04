@@ -52,10 +52,10 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
     }
 
     return (
-        <div onClick={() => { handlePdpClick(data.id) }} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
             <div className={Classes.product__item}>
                 <div className={Classes.product__item__pic}>
-                    <img className={Classes.img} src={`${data.images[0]}`} alt="" />
+                    <img onClick={() => { handlePdpClick(data.id) }} className={Classes.img} src={`${data.images[0]}`} alt="" />
                 </div>
                 <div className={Classes.product__item__text}>
                     <h6>{data.title}</h6>
@@ -65,7 +65,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
                     </div>
                     <p>{data.description.slice(0, 50)}...</p>
                     <p>{data.brand}</p>
-                    <h5><span style={{ textDecoration: "line-through" }}>&#8377;{data.price}</span><span style={{color:"red"}}> &#8377;{calculateOriginalPrice(data.price, data.discountPercentage)}</span></h5>
+                    <h5><span style={{ textDecoration: "line-through" }}>&#8377;{data.price}</span><span style={{ color: "red" }}> &#8377;{calculateOriginalPrice(data.price, data.discountPercentage).toFixed(2)}</span></h5>
                 </div>
             </div>
         </div>

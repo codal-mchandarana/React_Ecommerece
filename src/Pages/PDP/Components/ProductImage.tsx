@@ -1,7 +1,9 @@
 import Classes from './ProductImage.module.css'
 import { ProductType } from '../../../Interface/Product';
 import calculateOriginalPrice from '../../../utils/Calculate';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { CartContext } from '../../../Store/CartContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface product {
     currentProduct: ProductType
@@ -10,8 +12,17 @@ interface product {
 const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
     const [selected, setSelected] = useState(0);
+    const {isLogin} = useContext(CartContext);
+    const Navigate = useNavigate()
 
     let discount_price: number = 0;
+
+    const onClick = ()=>{
+        if(!isLogin)
+           Navigate('/login');
+        else  
+           console.log("Hello")
+    }
 
 
     const Price_block = () => {
@@ -80,7 +91,7 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                             <hr style={{ width: "80%", position: "relative", bottom: "1rem" }} />
 
                             <div style={{position:"relative",right:"0.7rem"}} className="action">
-                                <button  className={`${Classes.like} ${Classes.add_to_cart} btn ${Classes.btn_default}`} type="button"><i style={{marginRight:"0.6rem"}} className="fa-solid fa-cart-shopping"></i>ADD TO CART</button>
+                                <button onClick={onClick} className={`${Classes.like} ${Classes.add_to_cart} btn ${Classes.btn_default}`} type="button"><i style={{marginRight:"0.6rem"}} className="fa-solid fa-cart-shopping"></i>ADD TO CART</button>
                                 <button className={`${Classes.like} btn ${Classes.btn_default}`} type="button"><span className="fa fa-heart"></span></button>
                             </div>
 
