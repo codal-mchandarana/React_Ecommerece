@@ -2,11 +2,16 @@ import TopPortion from "./Components/TopPortion"
 import axios from 'axios'
 import MiddlePortion from "./Components/MiddlePortion"
 import { json } from 'react-router-dom'
+import { ToastContainer } from "react-toastify"
 
 const ItemPage: React.FC = (): JSX.Element => {
 
     return (
         <>
+           <ToastContainer
+                position="top-right"
+                autoClose={4000}
+            />
             <TopPortion />
             <MiddlePortion />
         </>

@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { CartContext } from '../../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
 import calculateOriginalPrice from '../../../../utils/Calculate';
+import { success } from '../../../../Toast/toast';
 
 const List = (rating: string) => {
 
@@ -33,18 +34,22 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
     const { carts, AddItemCarts, isLogin } = useContext(CartContext);
     const navigate = useNavigate();
 
+    const index = carts.findIndex((val)=>{return val.id===data.id})
+
+
     const handleClick = (data: ProductType) => {
         if (!isLogin)
             navigate('/login')
         else {
-
-            if (!carts.includes(data))
+            if (index===-1){
                 AddItemCarts(data);
+                success("tem Added Successfully !!")
+            }
         }
     }
 
     const customstyle = {
-        "cursor": carts.includes(data) ? "default" : "pointer"
+        "cursor": index!==-1 ? "default" : "pointer"
     }
 
     const handlePdpClick = (id: string) => {
@@ -59,7 +64,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
                 </div>
                 <div className={Classes.product__item__text}>
                     <h6>{data.title}</h6>
-                    <a style={customstyle} onClick={() => { handleClick(data) }} href="#!">{!carts.includes(data) ? "+ Add To Cart" : "Added to the Cart"}</a>
+                    <a style={customstyle} onClick={() => { handleClick(data) }} href="#!">{index===-1 ? "+ Add To Cart" : "Added to the Cart"}</a>
                     <div className={Classes.rating}>
                         {List(data.rating)}
                     </div>

@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { ProductType } from '../../Interface/Product';
 import { CartContext } from '../../Store/CartContextProvider';
 import Classes from '../ItemPage/Components/SubComponents/Card.module.css'
 import { useContext } from 'react';
+import { success } from '../../Toast/toast';
 
 const List = (rating: string) => {
 
@@ -29,16 +31,22 @@ interface card {
 const CartItem: React.FC<card> = ({ data }): JSX.Element => {
 
     const { DeleteItemCarts } = useContext(CartContext);
+    const navigate = useNavigate()
 
     const handleDeleteClick = (id: number) => {
         DeleteItemCarts(id);
+        success("Item removed SuccessFully !!")
+    }
+
+    const handlePdpClick = (id: string) => {
+        navigate(`/pdp/${id}`)
     }
 
     return (
         <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
             <div className={Classes.product__item}>
                 <div className={Classes.product__item__pic}>
-                    <img className={Classes.img} src={`${data.images[0]}`} alt="" />
+                    <img onClick={() => { handlePdpClick(data.id) }} className={Classes.img} src={`${data.images[0]}`} alt="" />
                 </div>
                 <div className={Classes.product__item__text}>
                     <h6>{data.title}</h6>

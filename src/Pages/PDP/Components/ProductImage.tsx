@@ -4,6 +4,7 @@ import calculateOriginalPrice from '../../../utils/Calculate';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
+import { success } from '../../../Toast/toast';
 
 interface product {
     currentProduct: ProductType
@@ -11,17 +12,26 @@ interface product {
 
 const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
+    const { carts,AddItemCarts } = useContext(CartContext);
+
+    const index = carts.findIndex((val) => { return val.id === currentProduct.id })
+
     const [selected, setSelected] = useState(0);
-    const {isLogin} = useContext(CartContext);
+    const { isLogin } = useContext(CartContext);
     const Navigate = useNavigate()
 
     let discount_price: number = 0;
 
-    const onClick = ()=>{
-        if(!isLogin)
-           Navigate('/login');
-        else  
-           console.log("Hello")
+    const onClick = () => {
+        if (!isLogin)
+            Navigate('/login');
+        else {
+            if (index === -1){
+                AddItemCarts(currentProduct);
+                success("Item Added Successfully !!")
+            }
+        }
+
     }
 
 
@@ -57,7 +67,7 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                         <div className={`${Classes.preview} col-md-6`}>
 
                             <div className={`${Classes.preview_pic} tab-content`}>
-                                <div className={`tab-pane ${selected === 0 && 'active'}`} id="pic-1"><img style={{ width: "100%",objectFit:'contain' }} alt='product-1' className={Classes.pic} src={currentProduct.images[0]} /></div>
+                                <div className={`tab-pane ${selected === 0 && 'active'}`} id="pic-1"><img style={{ width: "100%", objectFit: 'contain' }} alt='product-1' className={Classes.pic} src={currentProduct.images[0]} /></div>
                                 <div className={`tab-pane ${selected === 1 && 'active'}`} id="pic-2"><img alt='product-2' style={{ width: "100%" }} className={Classes.pic} src={currentProduct.images[1]} /></div>
                                 <div className={`tab-pane ${selected === 2 && 'active'}`} id="pic-3"><img alt='product-3' style={{ width: "100%" }} className={Classes.pic} src={currentProduct.images[2]} /></div>
                                 <div className={`tab-pane ${selected === 3 && 'active'}`} id="pic-4"><img alt='product-4' style={{ width: "100%" }} className={Classes.pic} src={currentProduct.images[3]} /></div>
@@ -73,7 +83,7 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                             <h3 style={{ textTransform: "none" }} className={Classes.product_title}>{(currentProduct.title)} :- {currentProduct.category[0].toUpperCase() + currentProduct.category.slice(1)}</h3>
                             <span style={{ position: "relative", bottom: "1rem" }}>By :- <a href="">{currentProduct.brand}</a></span>
 
-                            
+
                             <div className={Classes.rating}>
                                 <div className="stars">
                                     {Rating_block()}
@@ -87,11 +97,11 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                             <h3 style={{ textTransform: 'none' }} className={Classes.price}> Price: {Price_block()}</h3>
                             <p style={{ fontSize: '1.1rem' }}>You Save : <span style={{ color: "red", fontWeight: 'bold' }}>₹{(parseInt(currentProduct.price) - discount_price).toFixed(2)} ({currentProduct.discountPercentage}%)</span></p>
 
- 
+
                             <hr style={{ width: "80%", position: "relative", bottom: "1rem" }} />
 
-                            <div style={{position:"relative",right:"0.7rem"}} className="action">
-                                <button onClick={onClick} className={`${Classes.like} ${Classes.add_to_cart} btn ${Classes.btn_default}`} type="button"><i style={{marginRight:"0.6rem"}} className="fa-solid fa-cart-shopping"></i>ADD TO CART</button>
+                            <div style={{ position: "relative", right: "0.7rem" }} className="action">
+                                <button onClick={onClick} className={`${Classes.like} ${Classes.add_to_cart} btn ${Classes.btn_default}`} type="button" disabled={index !== -1} ><i style={{ marginRight: "0.6rem" }} className="fa-solid fa-cart-shopping"></i>{index !== -1 ? "ALREADY IN CART" : "ADD TO CART"}</button>
                                 <button className={`${Classes.like} btn ${Classes.btn_default}`} type="button"><span className="fa fa-heart"></span></button>
                             </div>
 
