@@ -7,9 +7,10 @@ import { success } from "../../Toast/toast";
 
 interface card {
     data: ProductType,
+    key:number
 }
 
-const CartItem1: React.FC<card> = ({ data }): JSX.Element => {
+const CartItem1: React.FC<card> = ({key, data }): JSX.Element => {
 
     const { DeleteItemCarts, carts,ChangeTotalPrice } = useContext(CartContext);
     const navigate = useNavigate()
@@ -56,7 +57,7 @@ const CartItem1: React.FC<card> = ({ data }): JSX.Element => {
 
     return (
         <>
-            <div className="row">
+            <div key={key} className="row">
                 <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
                     {/* Image */}
                     <div

@@ -8,7 +8,7 @@ const CartCheckout = () => {
     return (
         <>
             <div className="col-md-4">
-                <div className="card mb-4">
+                <div  style={{boxShadow:"0 26px 58px 0 rgba(0, 0, 0, .22), 0 5px 14px 0 rgba(0, 0, 0, .18)"}} className="card mb-4">
                     <div className="card-header py-3">
                         <h5 className="mb-0">Summary</h5>
                     </div>

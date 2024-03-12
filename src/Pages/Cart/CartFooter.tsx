@@ -1,7 +1,7 @@
 const CartFooter = () => {
     return (
         <>
-            <div className="card mb-4">
+            <div  style={{boxShadow:"0 26px 58px 0 rgba(0, 0, 0, .22), 0 5px 14px 0 rgba(0, 0, 0, .18)"}} className="card mb-4">
                 <div className="card-body">
                     <p>
                         <strong>Expected shipping delivery</strong>
@@ -9,7 +9,7 @@ const CartFooter = () => {
                     <p className="mb-0">12.10.2020 - 14.10.2020</p>
                 </div>
             </div>
-            <div className="card mb-4 mb-lg-0">
+            <div  style={{boxShadow:"0 26px 58px 0 rgba(0, 0, 0, .22), 0 5px 14px 0 rgba(0, 0, 0, .18)"}} className="card mb-4 mb-lg-0">
                 <div className="card-body">
                     <p>
                         <strong>We accept</strong>

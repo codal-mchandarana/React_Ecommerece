@@ -32,7 +32,7 @@ const BottomNav: React.FC = (): JSX.Element => {
                 <a href="/#"><img src="./img/icon/search.png" alt="" /></a>
                 <a href="/#"><img src="./img/icon/heart.png" alt="" /></a>
                 <Link style={{ textDecoration: 'none' }} to="/cart"><img src="./img/icon/cart.png" alt="" /><span className={Classes.number}>{isLogin ? TotalQuantity : 0}</span></Link>
-                <div>&#8377;{isLogin ? TotalPrice.toFixed(2) : 0}</div>
+                <div>&#8377;{isLogin && TotalQuantity!==0 ? TotalPrice.toFixed(2) : 0}</div>
             </div>
 
         </div>

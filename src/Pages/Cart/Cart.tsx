@@ -33,13 +33,14 @@ const Cart: React.FC = (): JSX.Element => {
                     })}
                 </div>
             </div> */}
+
             <section className="h-100 gradient-custom">
                 <div className="container py-5">
                     <div className="row d-flex justify-content-center my-4">
-                        <div className="col-md-8">
-                            <div className="card mb-4">
+                        <div  className="col-md-8">
+                            <div  style={{boxShadow:"0 26px 58px 0 rgba(0, 0, 0, .22), 0 5px 14px 0 rgba(0, 0, 0, .18)"}} className="card mb-4">
                                 <div className="card-header py-3">
-                                    <h5 className="mb-0">Cart - {carts.length} {carts.length===1?"item":"items"}</h5>
+                                    <h5 className="mb-0">Cart - {carts.length} {carts.length === 1 ? "item" : "items"}</h5>
                                 </div>
 
                                 <div className="card-body">
@@ -49,7 +50,7 @@ const Cart: React.FC = (): JSX.Element => {
                                             {carts.map((item) => {
                                                 return (
                                                     <>
-                                                        <CartItem1 data={item} />
+                                                        <CartItem1 key={Math.ceil(Math.random()*10000)} data={item} />
                                                         <hr className="my-4" />
                                                     </>
                                                 )
