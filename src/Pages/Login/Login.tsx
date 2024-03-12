@@ -20,7 +20,7 @@ const Login: React.FC = (): JSX.Element => {
             body: JSON.stringify({
                 username: email,
                 password: password,
-                expiresInMins: 1,
+                expiresInMins: 10,
             })
         })
         if (user.status === 200) {

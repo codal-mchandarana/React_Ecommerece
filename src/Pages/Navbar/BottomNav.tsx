@@ -3,16 +3,13 @@ import Classes from './bottomnav.module.css'
 import { useContext } from 'react';
 import { CartContext } from '../../Store/CartContextProvider';
 
-const BottomNav: React.FC = ():JSX.Element => {
+const BottomNav: React.FC = (): JSX.Element => {
     const location = useLocation();
     const { pathname } = location;
-    const {carts,isLogin} = useContext(CartContext);
+    const { carts, isLogin,TotalPrice } = useContext(CartContext);
 
-    let sum:number = 0;
+    const TotalQuantity:number = carts.reduce((accumulate,item)=>accumulate+(item.qty),0)
 
-    for (let index = 0; index < carts.length; index++) {
-        sum += parseInt(carts[index].price)
-    }
 
     return (
         <div className={Classes.container}>
@@ -23,8 +20,8 @@ const BottomNav: React.FC = ():JSX.Element => {
 
             <div className={Classes.header_menu}>
                 <ul>
-                    <li className={pathname==="/"?Classes.active:undefined}><Link to="/">Home</Link></li>
-                    <li className={pathname==="/shop"?Classes.active:undefined}><Link to="/shop">Shop</Link></li>
+                    <li className={pathname === "/" ? Classes.active : undefined}><Link to="/">Home</Link></li>
+                    <li className={pathname === "/shop" ? Classes.active : undefined}><Link to="/shop">Shop</Link></li>
                     <li><a href="/#">Pages</a></li>
                     <li><a href="/#">Blog</a></li>
                 </ul>
@@ -34,8 +31,8 @@ const BottomNav: React.FC = ():JSX.Element => {
             <div className={Classes.thirdportion}>
                 <a href="/#"><img src="./img/icon/search.png" alt="" /></a>
                 <a href="/#"><img src="./img/icon/heart.png" alt="" /></a>
-                <Link style={{textDecoration:'none'}} to="/cart"><img src="./img/icon/cart.png" alt="" /><span className={Classes.number}>{isLogin?carts.length:0}</span></Link>
-                <div>&#8377;{isLogin?sum:0}</div>
+                <Link style={{ textDecoration: 'none' }} to="/cart"><img src="./img/icon/cart.png" alt="" /><span className={Classes.number}>{isLogin ? TotalQuantity : 0}</span></Link>
+                <div>&#8377;{isLogin ? TotalPrice.toFixed(2) : 0}</div>
             </div>
 
         </div>

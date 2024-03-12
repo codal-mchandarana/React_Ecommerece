@@ -43,7 +43,7 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
         else {
             if (index===-1){
                 AddItemCarts(data);
-                success("tem Added Successfully !!")
+                success("Item Added Successfully !!")
             }
         }
     }

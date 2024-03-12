@@ -4,6 +4,7 @@ import { CartContext } from '../../Store/CartContextProvider';
 import Classes from '../ItemPage/Components/SubComponents/Card.module.css'
 import { useContext } from 'react';
 import { success } from '../../Toast/toast';
+import calculateOriginalPrice from '../../utils/Calculate';
 
 const List = (rating: string) => {
 
@@ -56,7 +57,7 @@ const CartItem: React.FC<card> = ({ data }): JSX.Element => {
                     </div>
                     <p>{data.description.slice(0, 50)}...</p>
                     <p>{data.brand}</p>
-                    <h5>&#8377;{data.price}</h5>
+                    <h5><span style={{ textDecoration: "line-through" }}>&#8377;{data.price}</span><span style={{ color: "red" }}> &#8377;{calculateOriginalPrice(data.price, data.discountPercentage).toFixed(2)}</span></h5>
                 </div>
             </div>
         </div>

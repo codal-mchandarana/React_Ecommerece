@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ProductType } from "../Interface/Product";
+import calculateOriginalPrice from "../utils/Calculate";
 
 /* Creating a Context */
 
@@ -10,7 +11,9 @@ interface cartItems {
     isAuthorised(): void,
     SetItemvalues(items: ProductType[]): void,
     AddItemCarts(item: ProductType): void,
-    DeleteItemCarts(id: number): void
+    DeleteItemCarts(id: number): void,
+    TotalPrice: number,
+    ChangeTotalPrice(price: number, type: number): void
 }
 
 /* Creating a context */
@@ -22,7 +25,9 @@ export const CartContext = createContext<cartItems>({
     isAuthorised: () => { },
     SetItemvalues: () => { },
     AddItemCarts: () => { },
-    DeleteItemCarts: () => { }
+    DeleteItemCarts: () => { },
+    TotalPrice: 0,
+    ChangeTotalPrice: () => { },
 });
 
 /* Creating a context provider component */
@@ -32,34 +37,60 @@ type Props = {
 };
 const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
     let arr: ProductType[] = [];
+
     const [items, editItems] = useState<ProductType[]>(arr)
     const [login, setIslogin] = useState(false);
+    const [price, changePrice] = useState<number>(0);
+
 
     let currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
         let tempoArr = localStorage.getItem(currentUser);
         if (tempoArr)
-           arr = JSON.parse(tempoArr);
+            arr = JSON.parse(tempoArr);
     }
 
-    useEffect(()=>{
-        editItems(prev=>arr)
-    },[login])
+    useEffect(() => {
+        let TotalPrice: number = 0;
+
+        for (const element of arr) {
+            let tempPrice: number = parseInt(element.price);
+            if (element.discountPercentage)
+                tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
+            TotalPrice += (tempPrice * element.qty)
+        }
+        changePrice(TotalPrice);
+        editItems(prev => arr)
+    }, [login])
 
 
     const AddItemCarts = (item: ProductType): void => {
-        editItems(prevItems => [...prevItems, item])
+        editItems(prevItems => [...prevItems, { ...item, qty: 1 }])
         let tempArr = items
         tempArr.push(item)
+
+        let price: number = parseInt(item.price)
+        if (item.discountPercentage)
+            price = calculateOriginalPrice(item.price, item.discountPercentage);
+
+        changePrice((prev) => prev + price);
 
         if (currentUser)
             localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
 
     const DeleteItemCarts = (id: number): void => {
+        const item: any = items.find((element) => parseInt(element.id) === id)
         editItems(prevItems => prevItems.filter((item) => parseInt(item.id) !== id));
         let tempArr = items;
-        tempArr = tempArr.filter((item)=>parseInt(item.id)!==id);
+        tempArr = tempArr.filter((item) => parseInt(item.id) !== id);
+
+        let price: number = parseInt(item.price)
+        if (item.discountPercentage)
+            price = calculateOriginalPrice(item.price, item.discountPercentage);
+
+        changePrice((prev) => prev - (price * item.qty));
+
         if (currentUser)
             localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
@@ -94,6 +125,13 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
         }
     }
 
+    const ChangePrice = (price: number, type: number) => {
+        if (type === 1)
+            changePrice((prev) => { return prev + price; })
+        else if (type === 2)
+            changePrice((prev) => { return prev - price })
+    }
+
     const ctxValue: cartItems = {
         carts: items,
         isLogin: login,
@@ -101,7 +139,9 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
         setIslogin: setislogin,
         AddItemCarts: AddItemCarts,
         SetItemvalues: SetItemvalues,
-        DeleteItemCarts: DeleteItemCarts
+        DeleteItemCarts: DeleteItemCarts,
+        TotalPrice: price,
+        ChangeTotalPrice: ChangePrice,
     }
 
     return (
