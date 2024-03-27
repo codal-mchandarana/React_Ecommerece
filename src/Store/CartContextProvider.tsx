@@ -65,9 +65,10 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
 
     const AddItemCarts = (item: ProductType): void => {
-        editItems(prevItems => [...prevItems, { ...item, qty: 1 }])
+        const newobj = {...item,qty:1};
+        editItems(prevItems => [...prevItems, newobj])
         let tempArr = items
-        tempArr.push(item)
+        tempArr.push(newobj)
 
         let price: number = parseInt(item.price)
         if (item.discountPercentage)
