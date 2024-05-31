@@ -21,7 +21,13 @@ const ItemPage: React.FC = (): JSX.Element => {
 export default ItemPage
 
 export const loader = async (): Promise<object> => {
-    const response = await axios.get('https://dummyjson.com/products');
-    if (response.status !== 200) { }
-    return json(response.data);
+    // https://dummyjson.com/products
+    let response;
+    try {
+        response = await axios.get('http://localhost:8080/product');
+    }catch (error){
+        console.log(error)
+    }
+    if (response?.status !== 200) { }
+    return json(response?.data);
 }
