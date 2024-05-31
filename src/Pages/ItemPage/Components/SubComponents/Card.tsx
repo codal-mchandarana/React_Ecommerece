@@ -30,7 +30,6 @@ interface card {
 }
 
 const Card: React.FC<card> = ({ data }): JSX.Element => {
-
     const { carts, AddItemCarts, isLogin } = useContext(CartContext);
     const navigate = useNavigate();
 
