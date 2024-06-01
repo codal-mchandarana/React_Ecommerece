@@ -5,6 +5,7 @@ import { CartContext } from '../../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
 import calculateOriginalPrice from '../../../../utils/Calculate';
 import { success } from '../../../../Toast/toast';
+import {addToCartApi} from "../../../../axios/api";
 
 const List = (rating: string) => {
 
@@ -36,12 +37,15 @@ const Card: React.FC<card> = ({ data }): JSX.Element => {
     const index = carts.findIndex((val)=>{return val.id===data.id})
 
 
-    const handleClick = (data: ProductType) => {
+    const handleClick = async (data: ProductType) => {
         if (!isLogin)
             navigate('/login')
         else {
             if (index===-1){
-                AddItemCarts(data);
+                const response = await addToCartApi(data.id);
+                if(response.status===200){
+                    AddItemCarts(data);
+                }
                 success("Item Added Successfully !!")
             }
         }

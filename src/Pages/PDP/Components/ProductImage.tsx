@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { success } from '../../../Toast/toast';
 import axios from "axios";
 import EcommerceClient from "../../../axios/helper";
+import {addToCartApi} from "../../../axios/api";
 
 interface product {
     currentProduct: ProductType
@@ -34,12 +35,15 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
     let discount_price: number = 0;
 
-    const onClick = () => {
+    const onClick = async() => {
         if (!isLogin)
             Navigate('/login');
         else {
             if (index === -1){
-                AddItemCarts(currentProduct);
+                const response = await addToCartApi(currentProduct.id);
+                if(response.status===200){
+                    AddItemCarts(currentProduct);
+                }
                 success("Item Added Successfully !!")
             }
         }

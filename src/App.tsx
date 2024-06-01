@@ -6,6 +6,8 @@ import CartContextProvider from './Store/CartContextProvider'
 import Cart from './Pages/Cart/Cart'
 import Login from './Pages/Login/Login'
 import Template from './Pages/PDP/Template'
+import SignUp from "./Pages/SignUp/SignUp";
+import Login1 from "./Pages/Login/Login1";
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -17,7 +19,8 @@ const router = createBrowserRouter([
     loader: DataLoader,
     children: [
       { index: true, path: "/", element: <HomePage /> },
-      { path: "/login", element: <Login /> },
+      { path: "/login", element: <Login1 /> },
+      { path: "/signUp", element: <SignUp /> },
       {
         path: "/shop",
         element: <ItemPage />,

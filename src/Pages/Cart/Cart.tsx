@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { CartContext } from "../../Store/CartContextProvider"
-import CartItem from "./CardItem"
 import CartItem1 from "./CartItem1"
 import CartFooter from "./CartFooter"
 import CartCheckout from "./CartCheckout"
@@ -9,7 +8,8 @@ import CartHeader from "./CartHeader"
 
 const Cart: React.FC = (): JSX.Element => {
 
-    const { carts, isLogin } = useContext(CartContext)
+    const { carts, isLogin } = useContext(CartContext);
+    console.log(carts)
 
     if (!isLogin) {
         return (
