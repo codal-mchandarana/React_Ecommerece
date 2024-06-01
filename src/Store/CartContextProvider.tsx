@@ -97,6 +97,16 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
     }
 
     const SetItemvalues = (items: ProductType[]): void => {
+        let TotalPrice = 0
+        console.log(items)
+        for (const element of items) {
+            console.log(element)
+            let tempPrice: number = parseInt(element.price);
+            if (element.discountPercentage)
+                tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
+            TotalPrice += (tempPrice * element.qty)
+        }
+        changePrice(TotalPrice);
         editItems(items)
     }
 

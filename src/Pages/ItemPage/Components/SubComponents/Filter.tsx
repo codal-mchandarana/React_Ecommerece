@@ -11,7 +11,7 @@ interface filter{
 const Filter: React.FC<filter> = ({len,handleChange,handleChangeInput}): JSX.Element => {
    
     const data:any = useRouteLoaderData("mainPage");
-    let product_value: ProductType[] = data.products;
+    let product_value: ProductType[] = data;
 
     let brand_name:string[] = (product_value.map((item)=>{return item.brand})).filter((x,i,a)=>a.indexOf(x)===i)
     brand_name.sort()

@@ -3,6 +3,7 @@ import Filter from "./SubComponents/Filter";
 import { useEffect, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
 import {  useRouteLoaderData } from "react-router-dom";
+import convertImageUrl from "../../../utils/helpter";
 
 interface edit {
     price: string,
@@ -17,10 +18,11 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
 
-    // console.log(edit)
-
     useEffect(() => {
-        setData(data1.products)
+        for(const element of data1)
+            element.images = convertImageUrl(String(element.images))
+
+        setData(data1)
     }, [])
 
     /***********  Filtering the data according to price ***********/
@@ -29,7 +31,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[] = data;
 
         if (vari === 1)
-            arr = data1.products;
+            arr = data1;
         else if (vari === 2)
             arr = arr1
 
@@ -49,7 +51,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[] = data;
 
         if (vari === 1)
-            arr = data1.products;
+            arr = data1;
         else if (vari === 2)
             arr = arr1
 
@@ -65,7 +67,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     /***********  Filtering the data according to brand ***********/
 
     const brandFiltering = (type: string) => {
-        let arr: ProductType[] = data1.products;
+        let arr: ProductType[] = data1;
         arr = arr.filter(item => item.brand === type)
         return arr;
     }
@@ -130,7 +132,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
 
                 }
                 else {
-                    setData(prev => [...data1.products])
+                    setData(prev => [...data1])
                 }
             }
             else {
@@ -164,7 +166,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[];
 
         if (value === "") {
-            arr = data1.products;
+            arr = data1;
             let brand: boolean = false;
 
             if (edit.brand !== '0' && edit.brand !== "No Choice" && edit.last !== 0) {
@@ -205,7 +207,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 <div className="row mt-5 gx-5">
                     {data.map((item) => {
                         return (
-                            <Card data={item} />
+                            <Card data={item}/>
                         )
                     })}
                 </div>

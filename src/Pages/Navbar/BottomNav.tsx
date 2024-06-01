@@ -15,7 +15,7 @@ const BottomNav: React.FC = (): JSX.Element => {
         <div className={Classes.container}>
 
             <div className={Classes.header__logo}>
-                <a href="/#"><img src="./img/logo.png" alt="" /></a>
+                <Link to="/"><img src="./img/logo.png" alt="" /></Link>
             </div>
 
             <div className={Classes.header_menu}>

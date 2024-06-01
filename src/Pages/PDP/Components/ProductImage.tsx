@@ -1,10 +1,13 @@
 import Classes from './ProductImage.module.css'
 import { ProductType } from '../../../Interface/Product';
 import calculateOriginalPrice from '../../../utils/Calculate';
-import { useContext, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { CartContext } from '../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
 import { success } from '../../../Toast/toast';
+import axios from "axios";
+import EcommerceClient from "../../../axios/helper";
+import {addToCartApi} from "../../../axios/api";
 
 interface product {
     currentProduct: ProductType
@@ -13,6 +16,16 @@ interface product {
 const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
     const { carts,AddItemCarts } = useContext(CartContext);
+    const [category,setCategory] = useState('')
+
+    useEffect(() => {
+        const fetchCateogry = async()=>{
+            const url = `category/fetchCategory/${currentProduct.id}`
+            const response = await EcommerceClient.get(url);
+            setCategory(response.data.category_name);
+        }
+        fetchCateogry();
+    }, []);
 
     const index = carts.findIndex((val) => { return val.id === currentProduct.id })
 
@@ -22,12 +35,15 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
     let discount_price: number = 0;
 
-    const onClick = () => {
+    const onClick = async() => {
         if (!isLogin)
             Navigate('/login');
         else {
             if (index === -1){
-                AddItemCarts(currentProduct);
+                const response = await addToCartApi(currentProduct.id);
+                if(response.status===200){
+                    AddItemCarts(currentProduct);
+                }
                 success("Item Added Successfully !!")
             }
         }
@@ -65,7 +81,6 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                 <div className="container-fluid">
                     <div className={`pt-4 wrapper row ${Classes.main_contain}`}>
                         <div className={`${Classes.preview} col-md-6`}>
-
                             <div className={`${Classes.preview_pic} tab-content`}>
                                 <div className={`tab-pane ${selected === 0 && 'active'}`} id="pic-1"><img style={{ width: "100%", objectFit: 'contain' }} alt='product-1' className={Classes.pic} src={currentProduct.images[0]} /></div>
                                 <div className={`tab-pane ${selected === 1 && 'active'}`} id="pic-2"><img alt='product-2' style={{ width: "100%" }} className={Classes.pic} src={currentProduct.images[1]} /></div>
@@ -80,7 +95,8 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
                             </ul>
                         </div>
                         <div style={{ padding: "2rem 0" }} className={`${Classes.details} col-md-6`}>
-                            <h3 style={{ textTransform: "none" }} className={Classes.product_title}>{(currentProduct.title)} :- {currentProduct.category[0].toUpperCase() + currentProduct.category.slice(1)}</h3>
+                            {/*<h3 style={{ textTransform: "none" }} className={Classes.product_title}>{(currentProduct.title)} :- {currentProduct.category[0].toUpperCase() + currentProduct.category.slice(1)}</h3>*/}
+                            <h3 style={{ textTransform: "none" }} className={Classes.product_title}>{(currentProduct.title)} :- {category}</h3>
                             <span style={{ position: "relative", bottom: "1rem" }}>By :- <a href="">{currentProduct.brand}</a></span>
 
 
