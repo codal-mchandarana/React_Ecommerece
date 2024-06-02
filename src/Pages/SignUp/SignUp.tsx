@@ -1,6 +1,5 @@
 import Classes from './SignUp.module.css'
 import {useState} from "react";
-import {ProductType} from "../../Interface/Product";
 import {Link, useNavigate} from "react-router-dom";
 import EcommerceClient from "../../axios/helper";
 

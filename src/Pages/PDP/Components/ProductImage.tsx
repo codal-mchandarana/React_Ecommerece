@@ -5,9 +5,9 @@ import {useContext, useEffect, useState} from 'react';
 import { CartContext } from '../../../Store/CartContextProvider';
 import { useNavigate } from 'react-router-dom';
 import { success } from '../../../Toast/toast';
-import axios from "axios";
 import EcommerceClient from "../../../axios/helper";
-import {addToCartApi} from "../../../axios/api";
+import {addToCartApi, addToWishlistApi} from "../../../axios/api";
+import {WishlistContext} from "../../../Store/WishlistContextProvider";
 
 interface product {
     currentProduct: ProductType
@@ -15,8 +15,9 @@ interface product {
 
 const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
-    const { carts,AddItemCarts } = useContext(CartContext);
-    const [category,setCategory] = useState('')
+    const { carts,AddItemCarts ,isLogin} = useContext(CartContext);
+    const {wishlistItems,AddItemsWishlist} = useContext(WishlistContext);
+    const [category,setCategory] = useState('');
 
     useEffect(() => {
         const fetchCateogry = async()=>{
@@ -28,9 +29,9 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
     }, []);
 
     const index = carts.findIndex((val) => { return val.id === currentProduct.id })
+    const index1 = wishlistItems.findIndex((val)=>{return val.id===currentProduct.id});
 
     const [selected, setSelected] = useState(0);
-    const { isLogin } = useContext(CartContext);
     const Navigate = useNavigate()
 
     let discount_price: number = 0;
@@ -50,15 +51,14 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
     }
 
-
     const Price_block = () => {
         const price = calculateOriginalPrice(currentProduct.price, currentProduct.discountPercentage);
         discount_price = price
 
         if (currentProduct.discountPercentage) {
-            return <span>₹ {price} </span>
+            return <span>₹ {price.toFixed(2)} </span>
         }
-        return <span>₹ {currentProduct.price}</span>
+        return <span>₹ {parseInt(currentProduct.price).toFixed(2)}</span>
     }
 
     const Rating_block = () => {
@@ -73,6 +73,14 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
             listItems.push(<span className="fa fa-star"></span>)
         }
         return listItems;
+    }
+
+    const handleWishlistClick = async ()=>{
+        const response = await addToWishlistApi(currentProduct.id);
+        if(response.status===200){
+            AddItemsWishlist(currentProduct);
+        }
+        success("Item Added Successfully !!")
     }
 
     return (
@@ -118,7 +126,7 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
 
                             <div style={{ position: "relative", right: "0.7rem" }} className="action">
                                 <button onClick={onClick} className={`${Classes.like} ${Classes.add_to_cart} btn ${Classes.btn_default}`} type="button" disabled={index !== -1} ><i style={{ marginRight: "0.6rem" }} className="fa-solid fa-cart-shopping"></i>{index !== -1 ? "ALREADY IN CART" : "ADD TO CART"}</button>
-                                <button className={`${Classes.like} btn ${Classes.btn_default}`} type="button"><span className="fa fa-heart"></span></button>
+                                <button onClick={handleWishlistClick} className={`${Classes.like} btn ${Classes.btn_default}`} type="button" disabled={index1 !== -1}><span className="fa fa-heart"></span></button>
                             </div>
 
 

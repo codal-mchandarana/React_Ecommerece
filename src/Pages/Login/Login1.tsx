@@ -1,13 +1,14 @@
 import Classes from '../SignUp/SignUp.module.css'
 import {Link, useNavigate} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import EcommerceClient from "../../axios/helper";
 import {CartContext} from "../../Store/CartContextProvider";
-import convertImageUrl from "../../utils/helpter";
-import {fetchCart} from "../../axios/api";
+import {WishlistContext} from '../../Store/WishlistContextProvider'
+import {fetchCart, fetchWishlist} from "../../axios/api";
 
 const SignUp:React.FC = ():JSX.Element=>{
-    const {SetItemvalues,setIslogin} = useContext(CartContext)
+    const {SetItemvalues,setIslogin} = useContext(CartContext);
+    const {SetWishlistvalues} = useContext(WishlistContext)
     const [user,setUser] = useState({email:'',password:''});
     const navigate = useNavigate();
 
@@ -38,7 +39,13 @@ const SignUp:React.FC = ():JSX.Element=>{
                 const cartItems = await fetchCart();
                 SetItemvalues(cartItems)
             };
+
+            const fetchWishlistProduct = async()=>{
+                const wishlistItems = await fetchWishlist()
+                SetWishlistvalues(wishlistItems);
+            }
             fetchCartProduct();
+            fetchWishlistProduct();
             navigate('/')
         }
     }

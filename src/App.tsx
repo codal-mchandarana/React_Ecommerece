@@ -3,8 +3,8 @@ import HomePage from './Pages/HomePage/HomePage'
 import ItemPage, { loader as DataLoader } from './Pages/ItemPage/ItemPage'
 import Layout from './Layout'
 import CartContextProvider from './Store/CartContextProvider'
+import WishlistContextProvider from './Store/WishlistContextProvider'
 import Cart from './Pages/Cart/Cart'
-import Login from './Pages/Login/Login'
 import Template from './Pages/PDP/Template'
 import SignUp from "./Pages/SignUp/SignUp";
 import Login1 from "./Pages/Login/Login1";
@@ -42,9 +42,11 @@ const App: React.FC = (): JSX.Element => {
   return (
     <>
       <CartContextProvider>
-        <div className="App">
-          <RouterProvider router={router} />
-        </div>
+        <WishlistContextProvider>
+            <div className="App">
+              <RouterProvider router={router} />
+            </div>
+        </WishlistContextProvider>
       </CartContextProvider>
     </>
   );

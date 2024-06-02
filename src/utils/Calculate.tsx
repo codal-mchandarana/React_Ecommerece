@@ -3,7 +3,6 @@ const calculateOriginalPrice = (price:string,discountPercentage:string)=>{
 
     if(discountPercentage){
         let percentage = parseInt(discountPercentage);
-
         Price = Price-Price*(percentage/100)
     }
     return Price
