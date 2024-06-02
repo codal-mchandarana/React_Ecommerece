@@ -3,9 +3,13 @@ import HomePage from './Pages/HomePage/HomePage'
 import ItemPage, { loader as DataLoader } from './Pages/ItemPage/ItemPage'
 import Layout from './Layout'
 import CartContextProvider from './Store/CartContextProvider'
+import WishlistContextProvider from './Store/WishlistContextProvider'
 import Cart from './Pages/Cart/Cart'
-import Login from './Pages/Login/Login'
 import Template from './Pages/PDP/Template'
+import SignUp from "./Pages/SignUp/SignUp";
+import Login1 from "./Pages/Login/Login1";
+import Wishlist from "./Pages/Wishlist/Wishlist";
+import {ToastContainer} from "react-toastify";
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -17,7 +21,9 @@ const router = createBrowserRouter([
     loader: DataLoader,
     children: [
       { index: true, path: "/", element: <HomePage /> },
-      { path: "/login", element: <Login /> },
+      { path:"/wishlist", element:<Wishlist />},
+      { path: "/login", element: <Login1 /> },
+      { path: "/signUp", element: <SignUp /> },
       {
         path: "/shop",
         element: <ItemPage />,
@@ -38,10 +44,16 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <>
+      <ToastContainer
+          position="top-right"
+          autoClose={4000}
+      />
       <CartContextProvider>
-        <div className="App">
-          <RouterProvider router={router} />
-        </div>
+        <WishlistContextProvider>
+            <div className="App">
+              <RouterProvider router={router} />
+            </div>
+        </WishlistContextProvider>
       </CartContextProvider>
     </>
   );

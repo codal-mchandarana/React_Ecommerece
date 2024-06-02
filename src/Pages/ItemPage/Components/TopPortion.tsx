@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Classes from './TopPortion.module.css'
 
-const TopPortion:React.FC = ():JSX.Element => {
+const TopPortion:React.FC<{item:string}> = ({item}):JSX.Element => {
     return (
         <section className={`${Classes.breadcrumb_option} mt-4`}>
             <div className="container">
@@ -11,7 +11,7 @@ const TopPortion:React.FC = ():JSX.Element => {
                             <h4>Shop</h4>
                             <div className={Classes.breadcrumb__links}>
                                 <Link to="/">Home</Link>
-                                <span>Shop</span>
+                                <span>{item}</span>
                             </div>
                         </div>
                     </div>

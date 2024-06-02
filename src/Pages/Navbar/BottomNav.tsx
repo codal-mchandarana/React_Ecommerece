@@ -15,7 +15,7 @@ const BottomNav: React.FC = (): JSX.Element => {
         <div className={Classes.container}>
 
             <div className={Classes.header__logo}>
-                <a href="/#"><img src="./img/logo.png" alt="" /></a>
+                <Link to="/"><img src="./img/logo.png" alt="" /></Link>
             </div>
 
             <div className={Classes.header_menu}>
@@ -30,7 +30,7 @@ const BottomNav: React.FC = (): JSX.Element => {
 
             <div className={Classes.thirdportion}>
                 <a href="/#"><img src="./img/icon/search.png" alt="" /></a>
-                <a href="/#"><img src="./img/icon/heart.png" alt="" /></a>
+                <Link to="/wishlist"><img src="./img/icon/heart.png" alt="" /></Link>
                 <Link style={{ textDecoration: 'none' }} to="/cart"><img src="./img/icon/cart.png" alt="" /><span className={Classes.number}>{isLogin ? TotalQuantity : 0}</span></Link>
                 <div>&#8377;{isLogin && TotalQuantity!==0 ? TotalPrice.toFixed(2) : 0}</div>
             </div>

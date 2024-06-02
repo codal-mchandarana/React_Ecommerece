@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { ProductType } from "../Interface/Product";
 import calculateOriginalPrice from "../utils/Calculate";
 
@@ -36,32 +36,32 @@ type Props = {
     children: JSX.Element,
 };
 const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
-    let arr: ProductType[] = [];
+    // let arr: ProductType[] = [];
 
-    const [items, editItems] = useState<ProductType[]>(arr)
+    const [items, editItems] = useState<ProductType[]>([])
     const [login, setIslogin] = useState(false);
     const [price, changePrice] = useState<number>(0);
 
 
-    let currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-        let tempoArr = localStorage.getItem(currentUser);
-        if (tempoArr)
-            arr = JSON.parse(tempoArr);
-    }
-
-    useEffect(() => {
-        let TotalPrice: number = 0;
-
-        for (const element of arr) {
-            let tempPrice: number = parseInt(element.price);
-            if (element.discountPercentage)
-                tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
-            TotalPrice += (tempPrice * element.qty)
-        }
-        changePrice(TotalPrice);
-        editItems(prev => arr)
-    }, [login])
+    // let currentUser = localStorage.getItem('currentUser');
+    // if (currentUser) {
+    //     let tempoArr = localStorage.getItem(currentUser);
+    //     if (tempoArr)
+    //         arr = JSON.parse(tempoArr);
+    // }
+    //
+    // useEffect(() => {
+    //     let TotalPrice: number = 0;
+    //
+    //     for (const element of arr) {
+    //         let tempPrice: number = parseInt(element.price);
+    //         if (element.discountPercentage)
+    //             tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
+    //         TotalPrice += (tempPrice * element.qty)
+    //     }
+    //     changePrice(TotalPrice);
+    //     editItems(prev => arr)
+    // }, [login])
 
 
     const AddItemCarts = (item: ProductType): void => {
@@ -75,9 +75,6 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
             price = calculateOriginalPrice(item.price, item.discountPercentage);
 
         changePrice((prev) => prev + price);
-
-        if (currentUser)
-            localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
 
     const DeleteItemCarts = (id: number): void => {
@@ -91,13 +88,24 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
             price = calculateOriginalPrice(item.price, item.discountPercentage);
 
         changePrice((prev) => prev - (price * item.qty));
-
-        if (currentUser)
-            localStorage.setItem(currentUser, JSON.stringify(tempArr));
     }
 
     const SetItemvalues = (items: ProductType[]): void => {
+        let TotalPrice = calculateTotalPrice(items);
+        changePrice(TotalPrice);
         editItems(items)
+    }
+
+    const calculateTotalPrice = (items: ProductType[]):number=>{
+        let TotalPrice = 0
+
+        for (const element of items) {
+            let tempPrice: number = parseInt(element.price);
+            if (element.discountPercentage)
+                tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
+            TotalPrice += (tempPrice * element.qty)
+        }
+        return TotalPrice;
     }
 
     const setislogin = (value: boolean): void => {
