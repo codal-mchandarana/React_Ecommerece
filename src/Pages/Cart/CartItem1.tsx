@@ -3,7 +3,7 @@ import { ProductType } from "../../Interface/Product";
 import calculateOriginalPrice from "../../utils/Calculate";
 import { CartContext } from "../../Store/CartContextProvider";
 import { useNavigate } from "react-router-dom";
-import { success } from "../../Toast/toast";
+import {error, success} from "../../Toast/toast";
 import {addToCartApi, deleteFromCart, fetchCart, removeFromCartApi} from "../../axios/api";
 
 interface card {
@@ -13,31 +13,37 @@ interface card {
 
 const CartItem1: React.FC<card> = ({key, data }): JSX.Element => {
 
-    const {SetItemvalues, DeleteItemCarts, carts,ChangeTotalPrice } = useContext(CartContext);
+    const {SetItemvalues, carts } = useContext(CartContext);
     const navigate = useNavigate()
 
     const [counter, setCounter] = useState(data.qty);
 
-    const changeLocalStorage = () => {
-        let currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            localStorage.setItem(currentUser, JSON.stringify(carts));
-        }
-    }
+    // const changeLocalStorage = () => {
+    //     let currentUser = localStorage.getItem('currentUser');
+    //     if (currentUser) {
+    //         localStorage.setItem(currentUser, JSON.stringify(carts));
+    //     }
+    // }
 
-    const calculatePrice = ():number=>{
-        if(data.discountPercentage)
-           return parseInt(calculateOriginalPrice(data.price,data.discountPercentage).toFixed(2));
-        
-        return parseInt(data.price)
-    }
+    // const calculatePrice = ():number=>{
+    //     if(data.discountPercentage)
+    //        return parseInt(calculateOriginalPrice(data.price,data.discountPercentage).toFixed(2));
+    //
+    //     return parseInt(data.price)
+    // }
 
     const handleDeleteClick = async(id: number) => {
-
-        const response = await deleteFromCart(id);
-        if(response.status===200){
-            const newCartItems = await fetchCart();
-            SetItemvalues(newCartItems);
+        try {
+            const response = await deleteFromCart(id);
+            if(response.status===200){
+                const newCartItems = await fetchCart();
+                SetItemvalues(newCartItems);
+                success("Item DELETED Successfully !!");
+            }else
+                throw new Error();
+        }catch (err){
+            console.log(err);
+            error("SOME ERROR OCCURED");
         }
     }
 

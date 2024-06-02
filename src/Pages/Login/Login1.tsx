@@ -5,6 +5,7 @@ import EcommerceClient from "../../axios/helper";
 import {CartContext} from "../../Store/CartContextProvider";
 import {WishlistContext} from '../../Store/WishlistContextProvider'
 import {fetchCart, fetchWishlist} from "../../axios/api";
+import {success,error} from "../../Toast/toast";
 
 const SignUp:React.FC = ():JSX.Element=>{
     const {SetItemvalues,setIslogin} = useContext(CartContext);
@@ -33,20 +34,26 @@ const SignUp:React.FC = ():JSX.Element=>{
             }
         })
         if(response.status===200){
-            setIslogin(true)
-            setUser({email:'',password:''})
-            const fetchCartProduct = async ()=>{
-                const cartItems = await fetchCart();
-                SetItemvalues(cartItems)
-            };
+            try {
+                success("Login Successfully !!")
+                setIslogin(true)
+                setUser({email:'',password:''})
+                const fetchCartProduct = async ()=>{
+                    const cartItems = await fetchCart();
+                    SetItemvalues(cartItems)
+                };
 
-            const fetchWishlistProduct = async()=>{
-                const wishlistItems = await fetchWishlist()
-                SetWishlistvalues(wishlistItems);
+                const fetchWishlistProduct = async()=>{
+                    const wishlistItems = await fetchWishlist()
+                    SetWishlistvalues(wishlistItems);
+                }
+                fetchCartProduct();
+                fetchWishlistProduct();
+                navigate('/')
+            }catch(err){
+                console.log(err)
+                error("SOME ERROR OCCURED")
             }
-            fetchCartProduct();
-            fetchWishlistProduct();
-            navigate('/')
         }
     }
 

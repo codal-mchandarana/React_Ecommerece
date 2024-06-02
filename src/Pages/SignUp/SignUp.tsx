@@ -2,20 +2,30 @@ import Classes from './SignUp.module.css'
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import EcommerceClient from "../../axios/helper";
+import {success,error} from "../../Toast/toast";
 
 const SignUp:React.FC = ():JSX.Element=>{
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [expand,setexpand] = useState<Boolean>(false);
-    const [user,setUser] = useState({email:'',otp:'',password:'',verifypassword:''})
+    const [user,setUser] = useState({email:'',otp:'',password:'',verifypassword:''});
 
     const handleOtpClick = async ()=>{
-        setexpand(!expand)
-        const repsonse = await EcommerceClient.post('/sendOtp',{email:user.email},{
-            headers:{
-                'content-type':'application/json'
-            }
-        })
-    }
+        setexpand(!expand);
+        try {
+            const repsonse = await EcommerceClient.post('/sendOtp',{email:user.email},{
+                headers:{
+                    'content-type':'application/json'
+                }
+            });
+            if(repsonse.status===200)
+                success("OTP SEND SUCCESSFULLY !!");
+            else
+                throw new Error();
+        }catch (err){
+            console.log(err);
+            error("SOME ERROR OCCURED");
+        }
+    };
 
     const handleInputChange = (event:any)=>{
         const {name,value} = event.target;
@@ -34,14 +44,22 @@ const SignUp:React.FC = ():JSX.Element=>{
             verifypassword:user.verifypassword,
             otp:user.otp
         }
-        const response = await EcommerceClient.post('/user/signUp',data,{
-            headers:{
-                'content-type':'application/json'
+        try {
+            const response = await EcommerceClient.post('/user/signUp',data,{
+                headers:{
+                    'content-type':'application/json'
+                }
+            })
+            if(response.status===200){
+                setUser({email:'',otp:'',password:'',verifypassword:''})
+                navigate('/')
+                success("Successful SignUp !!")
             }
-        })
-        if(response.status===200){
-            setUser({email:'',otp:'',password:'',verifypassword:''})
-            navigate('/')
+            else
+                throw new Error()
+        }catch(err){
+            console.log(err);
+            error('SOME ERROR OCCURED');
         }
     }
 

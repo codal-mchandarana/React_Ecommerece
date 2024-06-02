@@ -84,3 +84,29 @@ export const fetchWishlist = async()=>{
     return [];
 }
 
+export const removeFromWishlistApi = async(product_id:any)=>{
+    try {
+        const response = await EcommerceClient.delete(`wishlist/removeFromWishlist/${product_id}`,{
+            withCredentials:true
+        })
+        return response;
+    }catch (error){
+        console.log(error);
+    }
+    let response = {status:500};
+    return response
+}
+
+export const moveTocartFromWishlist = async(product_id:any)=>{
+    try {
+        const response = await EcommerceClient.get(`wishlist/moveItemToCart/${product_id}`,{
+            withCredentials:true
+        })
+        return response;
+    }catch (error){
+        console.log(error);
+    }
+    let response = {status:500};
+    return response
+}
+

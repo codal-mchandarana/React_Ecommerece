@@ -12,7 +12,7 @@ const ItemPage: React.FC = (): JSX.Element => {
                 position="top-right"
                 autoClose={4000}
             />
-            <TopPortion />
+            <TopPortion item="shop" />
             <MiddlePortion />
         </>
     )

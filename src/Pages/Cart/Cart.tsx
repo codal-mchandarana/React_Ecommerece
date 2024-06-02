@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { CartContext } from "../../Store/CartContextProvider"
-import {WishlistContext} from "../../Store/WishlistContextProvider"
 import CartItem1 from "./CartItem1"
 import CartFooter from "./CartFooter"
 import CartCheckout from "./CartCheckout"
@@ -10,15 +9,9 @@ import CartHeader from "./CartHeader"
 const Cart: React.FC = (): JSX.Element => {
 
     const { carts, isLogin } = useContext(CartContext);
-    const {wishlistItems} = useContext(WishlistContext);
-
-    console.log("Mann here",carts);
-    console.log("WishList items ",wishlistItems);
 
     if (!isLogin) {
-        return (
-            <h1 style={{ position: 'absolute', top: '50%', left: '35%' }}>Please Login to view your cart..</h1>
-        )
+        return (<h1 style={{ position: 'absolute', top: '50%', left: '35%' }}>Please Login to view your cart..</h1>)
     }
 
     return (
