@@ -3,7 +3,8 @@ import Filter from "./SubComponents/Filter";
 import { useEffect, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
 import {  useRouteLoaderData } from "react-router-dom";
-import convertImageUrl from "../../../utils/helpter";
+import Pagination from "./Pagination";
+import {fetchItems} from "../../../axios/api";
 
 interface edit {
     price: string,
@@ -17,12 +18,11 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const data1: any = useRouteLoaderData("mainPage");
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
+    const [page,setPage] = useState<number>(1);
 
     useEffect(() => {
-        for(const element of data1)
-            element.images = convertImageUrl(String(element.images))
-
-        setData(data1)
+        const fn = async()=>{let newData = await fetchItems(0);setData(newData)}
+        fn();
     }, [])
 
     /***********  Filtering the data according to price ***********/
@@ -211,6 +211,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                         )
                     })}
                 </div>
+                <Pagination setData={setData} page={page} setPage={setPage} totalPage={Math.ceil(data1.length/10)} />
             </div>
         </>
     )

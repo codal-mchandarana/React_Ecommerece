@@ -6,6 +6,7 @@ import {CartContext} from "../../Store/CartContextProvider";
 import {WishlistContext} from '../../Store/WishlistContextProvider'
 import {fetchCart, fetchWishlist} from "../../axios/api";
 import {success,error} from "../../Toast/toast";
+import {ToastContainer} from "react-toastify";
 
 const SignUp:React.FC = ():JSX.Element=>{
     const {SetItemvalues,setIslogin} = useContext(CartContext);
@@ -21,44 +22,57 @@ const SignUp:React.FC = ():JSX.Element=>{
     }
 
     const handleSubmit = async (event:any)=>{
-        event.preventDefault()
+        event.preventDefault();
 
         const data = {
             email:user.email,
             password:user.password,
-        }
-        const response = await EcommerceClient.post('/user/login',data,{
-            withCredentials: true,
-            headers:{
-                'content-type':'application/json'
-            }
-        })
-        if(response.status===200){
-            try {
-                success("Login Successfully !!")
-                setIslogin(true)
-                setUser({email:'',password:''})
-                const fetchCartProduct = async ()=>{
-                    const cartItems = await fetchCart();
-                    SetItemvalues(cartItems)
-                };
+        };
+        try {
+            const response = await EcommerceClient.post('/user/login',data,{
+                withCredentials: true,
+                headers:{'content-type':'application/json'}
+            });
+            if(response.status===200){
+                try {
+                    success("Login Successfully !!")
+                    setIslogin(true)
+                    setUser({email:'',password:''})
+                    const fetchCartProduct = async ()=>{
+                        const cartItems = await fetchCart();
+                        SetItemvalues(cartItems)
+                    };
 
-                const fetchWishlistProduct = async()=>{
-                    const wishlistItems = await fetchWishlist()
-                    SetWishlistvalues(wishlistItems);
+                    const fetchWishlistProduct = async()=>{
+                        const wishlistItems = await fetchWishlist()
+                        SetWishlistvalues(wishlistItems);
+                    }
+                    fetchCartProduct();
+                    fetchWishlistProduct();
+                    setTimeout(()=>{
+                        navigate('/');
+                    },1000)
+                }catch(err){
+                    console.log(err)
+                    error("SOME ERROR OCCURED");
                 }
-                fetchCartProduct();
-                fetchWishlistProduct();
-                navigate('/')
-            }catch(err){
-                console.log(err)
-                error("SOME ERROR OCCURED")
             }
+
+            else if(response.status===401) error("Invalid Crendials");
+
+            else throw new Error();
+
+        }catch(err){
+            error("LOGIN FAILED");
         }
     }
 
     return(
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={4000}
+            />
             <div className={Classes.body}>
                 <div className={Classes.wrapper}>
                     <h2>Login</h2>

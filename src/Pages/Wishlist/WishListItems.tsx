@@ -1,6 +1,7 @@
 import Classes from "./Wishlist.module.css";
 import calculateOriginalPrice from "../../utils/Calculate";
 import {ProductType} from "../../Interface/Product";
+import {useNavigate} from "react-router-dom";
 
 interface wishlistItem {
     data: ProductType,
@@ -10,12 +11,16 @@ interface wishlistItem {
 
 const WishListItems:React.FC<wishlistItem> = ({data,handleDeleteClick,handleMoveToCart})=>{
 
+    const navigate = useNavigate();
+    const handlePdpClick = (id: string) => {
+        navigate(`/pdp/${id}`)
+    }
     return (
         <>
             <div className={Classes.wishlist_body}>
                 <div className={Classes.wishlist_item}>
                     <div className={Classes.product_info}>
-                        <img src={data.images[0]} alt="product name"/>
+                        <img style={{cursor:'pointer'}} onClick={()=>{handlePdpClick(data.id)}} src={data.images[0]} alt="product name"/>
                         <div style={{marginLeft: '1rem'}} className={Classes.product_details}>
                             <span>{data.title}</span>
                             <span className={Classes.variant}>{data.brand}</span>

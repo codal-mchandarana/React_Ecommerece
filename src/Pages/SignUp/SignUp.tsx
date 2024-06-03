@@ -35,8 +35,7 @@ const SignUp:React.FC = ():JSX.Element=>{
     }
 
     const handleSubmit = async (event:any)=>{
-        event.preventDefault()
-        console.log("hello")
+        event.preventDefault();
 
         const data = {
             email:user.email,

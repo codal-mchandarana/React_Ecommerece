@@ -110,3 +110,20 @@ export const moveTocartFromWishlist = async(product_id:any)=>{
     return response
 }
 
+export const fetchItems = async(page:number)=>{
+    const paginationData = {
+        offset:(page-1)*10,
+        limit:10
+    }
+    if(page===0) paginationData.offset=1
+
+    const response = await EcommerceClient.post('product/productPerPage',paginationData,{
+        withCredentials: true,
+        headers:{'content-type':'application/json'}
+    })
+    const data1 = response.data;
+    for(const element of data1)
+        element.images = convertImageUrl(String(element.images))
+    return data1;
+}
+

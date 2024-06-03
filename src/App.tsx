@@ -10,6 +10,8 @@ import SignUp from "./Pages/SignUp/SignUp";
 import Login1 from "./Pages/Login/Login1";
 import Wishlist from "./Pages/Wishlist/Wishlist";
 import {ToastContainer} from "react-toastify";
+import Profile from './Pages/Profile/Profile'
+import Faq from "./FAQ/Faq";
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
     loader: DataLoader,
     children: [
       { index: true, path: "/", element: <HomePage /> },
+      { index: true, path: "/profile", element: <Profile/> },
+      { index: true, path: "/faq", element: <Faq/> },
       { path:"/wishlist", element:<Wishlist />},
       { path: "/login", element: <Login1 /> },
       { path: "/signUp", element: <SignUp /> },
