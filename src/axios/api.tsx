@@ -110,10 +110,10 @@ export const moveTocartFromWishlist = async(product_id:any)=>{
     return response
 }
 
-export const fetchItems = async(page:number)=>{
+export const fetchItems = async(page:number,perPage:number=10)=>{
     const paginationData = {
-        offset:(page-1)*10,
-        limit:10
+        offset:(page-1)*perPage,
+        limit:perPage
     }
     if(page===0) paginationData.offset=1
 

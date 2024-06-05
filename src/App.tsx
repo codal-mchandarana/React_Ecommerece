@@ -12,6 +12,7 @@ import Wishlist from "./Pages/Wishlist/Wishlist";
 import {ToastContainer} from "react-toastify";
 import Profile from './Pages/Profile/Profile'
 import Faq from "./FAQ/Faq";
+import Footer from "./Pages/Footer/Footer";
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -56,6 +57,7 @@ const App: React.FC = (): JSX.Element => {
         <WishlistContextProvider>
             <div className="App">
               <RouterProvider router={router} />
+              <Footer />
             </div>
         </WishlistContextProvider>
       </CartContextProvider>

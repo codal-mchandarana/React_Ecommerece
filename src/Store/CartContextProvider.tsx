@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { ProductType } from "../Interface/Product";
 import calculateOriginalPrice from "../utils/Calculate";
+import Cookies from 'js-cookie';
 
 /* Creating a Context */
 
@@ -8,7 +9,7 @@ interface cartItems {
     carts: ProductType[],
     isLogin: boolean,
     setIslogin(value: boolean): void,
-    isAuthorised(): void,
+    isAuthorised(): boolean,
     SetItemvalues(items: ProductType[]): void,
     AddItemCarts(item: ProductType): void,
     DeleteItemCarts(id: number): void,
@@ -22,7 +23,7 @@ export const CartContext = createContext<cartItems>({
     carts: [],
     isLogin: false,
     setIslogin: () => { },
-    isAuthorised: () => { },
+    isAuthorised: () => false,
     SetItemvalues: () => { },
     AddItemCarts: () => { },
     DeleteItemCarts: () => { },
@@ -41,27 +42,6 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
     const [items, editItems] = useState<ProductType[]>([])
     const [login, setIslogin] = useState(false);
     const [price, changePrice] = useState<number>(0);
-
-
-    // let currentUser = localStorage.getItem('currentUser');
-    // if (currentUser) {
-    //     let tempoArr = localStorage.getItem(currentUser);
-    //     if (tempoArr)
-    //         arr = JSON.parse(tempoArr);
-    // }
-    //
-    // useEffect(() => {
-    //     let TotalPrice: number = 0;
-    //
-    //     for (const element of arr) {
-    //         let tempPrice: number = parseInt(element.price);
-    //         if (element.discountPercentage)
-    //             tempPrice = calculateOriginalPrice(element.price, element.discountPercentage);
-    //         TotalPrice += (tempPrice * element.qty)
-    //     }
-    //     changePrice(TotalPrice);
-    //     editItems(prev => arr)
-    // }, [login])
 
 
     const AddItemCarts = (item: ProductType): void => {
@@ -111,27 +91,33 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
     const setislogin = (value: boolean): void => {
         setIslogin(value)
     }
-    const isAuthorised = (): void => {
-        let token = localStorage.getItem('token');
+    const isAuthorised = (): boolean => {
+        let token = Cookies.get('accessToken');
 
-        if (token) {
-            fetch('https://dummyjson.com/auth/me', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-                .then(res => {
-                    if (res.status !== 200)
-                        throw new Error('invalid token')
-                    else
-                        setIslogin(true);
-                })
-                .catch(error => {
-                    setIslogin(false);
-                    localStorage.removeItem('token')
-                })
+        if(token) {
+            console.log("Hello")
+            return true;
         }
+        return false;
+
+        // if (token) {
+        //     fetch('https://dummyjson.com/auth/me', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Authorization': `Bearer ${token}`,
+        //         },
+        //     })
+        //         .then(res => {
+        //             if (res.status !== 200)
+        //                 throw new Error('invalid token')
+        //             else
+        //                 setIslogin(true);
+        //         })
+        //         .catch(error => {
+        //             setIslogin(false);
+        //             localStorage.removeItem('token')
+        //         })
+        // }
     }
 
     const ChangePrice = (price: number, type: number) => {

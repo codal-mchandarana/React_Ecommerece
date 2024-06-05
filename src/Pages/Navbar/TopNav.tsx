@@ -2,18 +2,34 @@ import { Link } from 'react-router-dom';
 import styles from './topnav.module.css';
 import { useContext, useEffect } from 'react';
 import { CartContext } from '../../Store/CartContextProvider';
+import Cookies from 'js-cookie'
+import {helper_Fetching_cartProducts, helper_Fetching_wishlistProducts} from "../../utils/helpter";
+import {WishlistContext} from "../../Store/WishlistContextProvider";
 
 const TopNav: React.FC = (): JSX.Element => {
 
-    const {isLogin,setIslogin,isAuthorised} = useContext(CartContext);
+    const {isLogin,setIslogin,isAuthorised,SetItemvalues} = useContext(CartContext);
+    const {SetWishlistvalues} = useContext(WishlistContext)
 
     useEffect(()=>{
-        isAuthorised();
+
+        const fetch = async()=>{
+            const cart_values = await helper_Fetching_cartProducts();
+            const wishList_values = await helper_Fetching_wishlistProducts();
+
+            SetItemvalues(cart_values);
+            SetWishlistvalues(wishList_values);
+        }
+
+        if(isAuthorised()){
+            fetch();
+            setIslogin(true);
+        }
     },[])
 
     const logout=()=>{
-        localStorage.removeItem('token');
-        localStorage.removeItem('currentUser')
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
         setIslogin(false);
     }
 
