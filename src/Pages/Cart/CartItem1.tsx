@@ -32,7 +32,7 @@ const CartItem1: React.FC<card> = ({key, data }): JSX.Element => {
     //     return parseInt(data.price)
     // }
 
-    const handleDeleteClick = async(id: number) => {
+    const handleDeleteClick = async(id:any) => {
         try {
             const response = await deleteFromCart(id);
             if(response.status===200){
@@ -101,7 +101,7 @@ const CartItem1: React.FC<card> = ({key, data }): JSX.Element => {
                         className="btn btn-primary btn-sm me-1 mb-2"
                         data-mdb-toggle="tooltip"
                         title="Remove item"
-                        onClick={() => { handleDeleteClick(parseInt(data.id)) }}
+                        onClick={() => { handleDeleteClick(data.id)}}
                     >
                         <i className="fas fa-trash" />
                     </button>

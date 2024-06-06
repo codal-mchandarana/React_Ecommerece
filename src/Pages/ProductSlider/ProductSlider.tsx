@@ -15,7 +15,6 @@ const ProductSlider:React.FC = ():JSX.Element=>{
         fn();
 
     }, [])
-    console.log(data)
 
     return <>
         <div className={Classes.container}>
@@ -23,7 +22,7 @@ const ProductSlider:React.FC = ():JSX.Element=>{
             <div id="carouselExampleControls" className={`${Classes.carousel1} carousel slide`} data-ride="carousel">
                 <div className={`carousel_inner ${Classes.carousel_inner_1}`}>
                     <SliderItem active={'active'} data={data.slice(5,9)}/>
-                    <SliderItem active={''} data={data.slice(60,64)}/>
+                    <SliderItem active={''} data={data.slice(1,5)}/>
                     {/*<SliderItem active={''}/>*/}
                     {/*<SliderItem active={''}/>*/}
                     {/*<div className="carousel-item">*/}

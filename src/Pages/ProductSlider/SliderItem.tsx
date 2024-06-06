@@ -2,7 +2,6 @@ import Classes from "./ProductSlider.module.css";
 import calculate from "../../utils/Calculate";
 
 const SliderItem:React.FC<{active:string,data:any}> = ({active,data}):JSX.Element=>{
-    console.log('sjflsjfd',data)
 
     return <div className={`carousel-item ${active}`}>
         <div className={`${Classes.cards_wrapper_default} cards_wrapper`}>

@@ -1,5 +1,5 @@
 import Classes from './Pagination.module.css'
-import {fetchItems} from "../../../axios/api";
+import {fetchItems, fetchItemsAWS} from "../../../axios/api";
 
 interface pageinter{
     page:number,
@@ -9,7 +9,6 @@ interface pageinter{
 }
 const Pagination:React.FC<pageinter> = ({page,setPage,totalPage,setData}):JSX.Element=>{
     const incrementPage = async ()=>{
-        console.log(page)
         if(page+1>totalPage) return;
         const data1 = await fetchItems(page+1);
         setPage(page+1);
@@ -24,7 +23,7 @@ const Pagination:React.FC<pageinter> = ({page,setPage,totalPage,setData}):JSX.El
     }
 
     const handleClick = async (pageNumber:number)=>{
-        const data1 = await fetchItems(pageNumber);
+        const data1 = await fetchItemsAWS(pageNumber);
         setPage(pageNumber)
         setData(data1);
     }

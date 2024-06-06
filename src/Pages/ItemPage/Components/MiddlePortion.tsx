@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
 import {  useRouteLoaderData } from "react-router-dom";
 import Pagination from "./Pagination";
-import {fetchItems} from "../../../axios/api";
+import {fetchItems, fetchItemsAWS} from "../../../axios/api";
 
 interface edit {
     price: string,
@@ -21,7 +21,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const [page,setPage] = useState<number>(1);
 
     useEffect(() => {
-        const fn = async()=>{let newData = await fetchItems(0);setData(newData)}
+        const fn = async()=>{let newData = await fetchItemsAWS(0);setData(newData)}
         fn();
     }, [])
 

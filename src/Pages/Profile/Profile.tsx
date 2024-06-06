@@ -10,7 +10,7 @@ import {userDetails} from "../../Interface/userDetails";
 import {fetchUserDetails} from "../../axios/userapi";
 
 const Profile:React.FC = ():JSX.Element=>{
-    const {  isLogin } = useContext(CartContext);
+    const {  isLogin,isAuthorised } = useContext(CartContext);
     const [userDetails,setUserDetails] = useState<userDetails>({
         name:"",
         phone:"",
@@ -28,7 +28,7 @@ const Profile:React.FC = ():JSX.Element=>{
             const {name,phone,postcode,address,age,country,email,gender,state} = await fetchUserDetails();
             setUserDetails({name,phone,address,postcode,state,email,country,gender,age});
         }
-        if(isLogin)
+        if(isAuthorised())
            fetchdetails();
 
     }, []);

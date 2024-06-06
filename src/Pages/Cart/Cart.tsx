@@ -8,10 +8,10 @@ import CartHeader from "./CartHeader"
 
 const Cart: React.FC = (): JSX.Element => {
 
-    const { carts, isLogin } = useContext(CartContext);
+    const { carts, isLogin,isAuthorised } = useContext(CartContext);
 
     if (!isLogin) {
-        return (<h1 style={{ position: 'absolute', top: '50%', left: '35%' }}>Please Login to view your cart..</h1>)
+        return (<h1 style={{ position:'relative', marginTop:'15rem',left: '35%' }}>Please Login to view your cart..</h1>)
     }
 
     return (

@@ -1,5 +1,6 @@
 import EcommerceClient from "./helper";
 import convertImageUrl from "../utils/helpter";
+import axios from "axios";
 
 export const addToCartApi = async(product_id:any)=>{
     try {
@@ -124,6 +125,18 @@ export const fetchItems = async(page:number,perPage:number=10)=>{
     const data1 = response.data;
     for(const element of data1)
         element.images = convertImageUrl(String(element.images))
+    return data1;
+}
+export const fetchItemsAWS = async(page:number,perPage:number=10)=>{
+    const offset = page===0?0:(page-1)*perPage;
+
+    const paginationData = {offset:page==0?0:offset}
+
+    const response = await EcommerceClient.post('product/productPerPage',paginationData,{
+        withCredentials: true,
+        headers:{'content-type':'application/json'}
+    })
+    const data1 = response.data;
     return data1;
 }
 

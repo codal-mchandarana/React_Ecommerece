@@ -2,16 +2,42 @@ import { useParams, useRouteLoaderData } from "react-router-dom"
 import ProductImage from "./Components/ProductImage";
 import TopPortion from "./Components/TopPortion"
 import { ToastContainer } from "react-toastify";
-import convertImageUrl from "../../utils/helpter";
+import {useEffect, useState} from "react";
+import EcommerceClient from "../../axios/helper";
 
 const Template: React.FC = (): JSX.Element => {
-    const data1: any = useRouteLoaderData("mainPage");
+    const [currentProduct,setCurrentProduct] = useState({
+        id:'',
+        title:'',
+        description:'',
+        price:'',
+        discountPercentage:'',
+        qty:0,
+        rating:'',
+        stock:'',
+        brand:'',
+        category:'',
+        thumbnail:'',
+        images:[]
+    })
     const { id } = useParams();
 
-    const index = id ? parseInt(id) - 1 : 0;
+    useEffect(() => {
+        const fetchItem = async()=>{
+            try {
+                const response = await EcommerceClient.get(`product/getProduct/${id}`,{
+                    withCredentials:true
+                });
+                setCurrentProduct(response.data);
+            }catch (error){
+                console.log(error);
+            }
+        }
+        fetchItem();
+    }, []);
 
-    const currentProduct = data1[index]
-    currentProduct.images = convertImageUrl(String(currentProduct.images))
+    // const currentProduct = data1[index]
+    // currentProduct.images = convertImageUrl(String(currentProduct?.images))
 
     return (
         <>
@@ -19,8 +45,8 @@ const Template: React.FC = (): JSX.Element => {
                 position="top-right"
                 autoClose={4000}
             />
-            <TopPortion item={currentProduct.title} />
-            <ProductImage currentProduct={currentProduct} />
+            <TopPortion item={currentProduct?.title} />
+            {currentProduct.id!==''&&<ProductImage currentProduct={currentProduct} />}
         </>
     )
 

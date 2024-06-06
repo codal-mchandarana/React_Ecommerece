@@ -17,10 +17,8 @@ const CartCheckout = () => {
         }
         // const response = await apiRequest('stripe',"POST",body)
         const response = await EcommerceClient.post('payment/stripe',body);
-        console.log(response.data);
         const session = response.data;
         const result = stripe?.redirectToCheckout({sessionId: session.id});
-        console.log(result);
     }
 
     return (
