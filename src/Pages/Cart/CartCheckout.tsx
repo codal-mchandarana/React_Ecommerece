@@ -1,9 +1,27 @@
 import { useContext } from "react";
 import { CartContext } from "../../Store/CartContextProvider";
+import {loadStripe} from '@stripe/stripe-js';
+import EcommerceClient from "../../axios/helper";
 
 const CartCheckout = () => {
    
-    const {TotalPrice} = useContext(CartContext)
+    const {TotalPrice} = useContext(CartContext);
+
+    const handleClick = async(event:any)=>{
+        event.preventDefault();
+        const stripe = await loadStripe("pk_test_51PNZZDEqEj8PZfPPpYnWzAddH1A5uikuhFmlOgkbnuHkastTtNTJ6ITSoslbTkVbjt5WPkyfE9dXiv3aQ1rKJoZP00RInShcg8");
+        const body = {
+            amount: TotalPrice,
+            eventId: 12,
+            eventName: "Purchasing Products",
+        }
+        // const response = await apiRequest('stripe',"POST",body)
+        const response = await EcommerceClient.post('payment/stripe',body);
+        console.log(response.data);
+        const session = response.data;
+        const result = stripe?.redirectToCheckout({sessionId: session.id});
+        console.log(result);
+    }
 
     return (
         <>
@@ -34,9 +52,7 @@ const CartCheckout = () => {
                                 </span>
                             </li>
                         </ul>
-                        <button type="button" className="btn btn-dark btn-lg btn-block">
-                            Go to checkout
-                        </button>
+                        <button onClick={handleClick} type="button" className="btn btn-dark btn-lg btn-block">Go to checkout</button>
                     </div>
                 </div>
             </div>

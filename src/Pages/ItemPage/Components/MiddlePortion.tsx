@@ -3,6 +3,8 @@ import Filter from "./SubComponents/Filter";
 import { useEffect, useState } from "react";
 import { ProductType } from "../../../Interface/Product";
 import {  useRouteLoaderData } from "react-router-dom";
+import Pagination from "./Pagination";
+import {fetchItems} from "../../../axios/api";
 
 interface edit {
     price: string,
@@ -16,11 +18,11 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     const data1: any = useRouteLoaderData("mainPage");
     const [data, setData] = useState<ProductType[]>([])
     const [edit, isEdit] = useState<edit>({ "price": "0", "rating": "0", "brand": "0", last: 0 });
-
-    // console.log(edit)
+    const [page,setPage] = useState<number>(1);
 
     useEffect(() => {
-        setData(data1.products)
+        const fn = async()=>{let newData = await fetchItems(0);setData(newData)}
+        fn();
     }, [])
 
     /***********  Filtering the data according to price ***********/
@@ -29,7 +31,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[] = data;
 
         if (vari === 1)
-            arr = data1.products;
+            arr = data1;
         else if (vari === 2)
             arr = arr1
 
@@ -49,7 +51,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[] = data;
 
         if (vari === 1)
-            arr = data1.products;
+            arr = data1;
         else if (vari === 2)
             arr = arr1
 
@@ -65,7 +67,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
     /***********  Filtering the data according to brand ***********/
 
     const brandFiltering = (type: string) => {
-        let arr: ProductType[] = data1.products;
+        let arr: ProductType[] = data1;
         arr = arr.filter(item => item.brand === type)
         return arr;
     }
@@ -130,7 +132,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
 
                 }
                 else {
-                    setData(prev => [...data1.products])
+                    setData(prev => [...data1])
                 }
             }
             else {
@@ -164,7 +166,7 @@ const MiddlePortion: React.FC = (): JSX.Element => {
         let arr: ProductType[];
 
         if (value === "") {
-            arr = data1.products;
+            arr = data1;
             let brand: boolean = false;
 
             if (edit.brand !== '0' && edit.brand !== "No Choice" && edit.last !== 0) {
@@ -205,10 +207,11 @@ const MiddlePortion: React.FC = (): JSX.Element => {
                 <div className="row mt-5 gx-5">
                     {data.map((item) => {
                         return (
-                            <Card data={item} />
+                            <Card data={item}/>
                         )
                     })}
                 </div>
+                <Pagination setData={setData} page={page} setPage={setPage} totalPage={Math.ceil(data1.length/10)} />
             </div>
         </>
     )

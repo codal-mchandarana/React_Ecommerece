@@ -1,0 +1,48 @@
+.carousel1{
+    height: 100%;
+    overflow: auto;
+}
+
+.cards_wrapper_default {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.card1 img {
+    max-width: 100%;
+    cursor: pointer;
+    /*height: 10rem;*/
+    height: 280px;
+}
+.card1{
+    margin: 0 0.5em;
+    /*box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);*/
+    /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 305px;
+}
+.carousel_inner_1 {
+    padding: 1em;
+}
+.prev_button,
+.next_button {
+    background-color: black;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+    transform: translateY(15rem);
+    /*transform: translateX(13rem);*/
+}
+.container{
+    /*margin-left: 10rem;*/
+}
+
+.text{
+    font-size: 28px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: auto;
+    width: 87%;
+}
