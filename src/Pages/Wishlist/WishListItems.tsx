@@ -33,8 +33,11 @@ const WishListItems:React.FC<wishlistItem> = ({data,handleDeleteClick,handleMove
                     </div>
                     <div className={Classes.actions}>
                         <span onClick={()=>{handleDeleteClick(data.id)}} className={`${Classes.action} text-danger`}>Remove Item</span>
-                        <span onClick={()=>{handleMoveToCart(data.id)}} className={`${Classes.action} text-success`}>Move to Cart</span>
                     </div>
+                    <div className={Classes.actions}>
+                    <span onClick={()=>{handleMoveToCart(data.id)}} className={`${Classes.action} text-success`}>Move to Cart</span>
+                    </div>
+                        
                 </div>
             </div>
         </>

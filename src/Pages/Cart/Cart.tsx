@@ -21,15 +21,6 @@ const Cart: React.FC = (): JSX.Element => {
                 autoClose={4000}
             />
             <CartHeader />
-            {/* <div style={{ marginTop: "7rem" }} className="container">
-                <div className="row mt-5 gx-5">
-                    {carts.map((item) => {
-                        return (
-                            <CartItem data={item} />
-                        )
-                    })}
-                </div>
-            </div> */}
 
             <section className="h-100 gradient-custom">
                 <div className="container py-5">

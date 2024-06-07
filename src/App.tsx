@@ -13,6 +13,7 @@ import {ToastContainer} from "react-toastify";
 import Profile from './Pages/Profile/Profile'
 import Faq from "./FAQ/Faq";
 import Footer from "./Pages/Footer/Footer";
+import Order from './Pages/Order/Order'
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />
+      },
+      {
+        path: "/order",
+        element: <Order />
       },
       {
         path: "/pdp/:id",
