@@ -45,9 +45,10 @@ const MiddlePortion:React.FC = ():JSX.Element=>{
                 <div className={`${Classes.container} `}>
                     {/*<div className={Classes.heading}>MY TOP BEANIE - 3/30/2024</div>*/}
                     <div className={Classes.wishlist_header}>
-                        <div>1 ITEM IN YOUR WISH LIST</div>
+                        <div>{wishlistItems.length} ITEM IN YOUR WISH LIST</div>
                         <div>COST</div>
                         <div>DELETE</div>
+                        <div>MOVE</div>
                     </div>
                     {wishlistItems.map((value)=>{
                         return <WishListItems data={value} handleDeleteClick={handleDeleteClick} handleMoveToCart={handleMoveToCart} />

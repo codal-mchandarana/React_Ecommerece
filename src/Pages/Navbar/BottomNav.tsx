@@ -22,8 +22,8 @@ const BottomNav: React.FC = (): JSX.Element => {
                 <ul>
                     <li className={pathname === "/" ? Classes.active : undefined}><Link to="/">Home</Link></li>
                     <li className={pathname === "/shop" ? Classes.active : undefined}><Link to="/shop">Shop</Link></li>
-                    <li><a href="/#">Pages</a></li>
-                    <li><a href="/#">Blog</a></li>
+                    <li className={pathname === "/order" ? Classes.active : undefined}><Link to="/order">Your Order</Link></li>
+                    {/* <li><a href="/#">Blog</a></li> */}
                 </ul>
 
             </div>
