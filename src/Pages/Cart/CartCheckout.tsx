@@ -43,7 +43,7 @@ const CartCheckout = () => {
 
   const handlePaymentVerify = async (data: any) => {
     const options = {
-      key: "rzp_test_18Uyh8fDUYl0JB",
+      key: process.env.REACT_APP_RAZORPAY_KEY,
       amount: data.amount,
       currency: data.currency,
       name: "ECOMMERCE",
