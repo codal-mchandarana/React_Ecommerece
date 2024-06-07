@@ -19,7 +19,7 @@
     /*box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);*/
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     border-radius: 10px;
     width: 305px;
 }
