@@ -10,7 +10,7 @@ const SliderItem:React.FC<{active:string,data:any}> = ({active,data}):JSX.Elemen
 
                     return (
                         <div className={`card ${Classes.card1}`}>
-                            <img src={product.images[0]}
+                            <img src={product.images}
                                  className="card-img-top w-100 object-fit-cover" alt="..."/>
                             <div style={{borderTop:"1px solid gray"}} className="card-body">
                                 <h5 className="card-title">{product.title}</h5>
