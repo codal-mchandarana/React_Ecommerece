@@ -95,7 +95,6 @@ const CartContextProvider: React.FC<Props> = ({ children }): JSX.Element => {
         let token = Cookies.get('accessToken');
 
         if(token) {
-            console.log("Hello")
             return true;
         }
         return false;

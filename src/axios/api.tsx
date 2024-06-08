@@ -1,5 +1,5 @@
 import EcommerceClient from "./helper";
-import convertImageUrl from "../utils/helpter";
+import {convertImageUrl} from "../utils/helpter";
 import axios from "axios";
 
 export const addToCartApi = async (product_id: any) => {

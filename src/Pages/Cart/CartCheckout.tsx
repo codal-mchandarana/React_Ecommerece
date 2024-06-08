@@ -3,24 +3,17 @@ import { CartContext } from "../../Store/CartContextProvider";
 import EcommerceClient from "../../axios/helper";
 import { success } from "../../Toast/toast";
 import useRazorpay from "react-razorpay";
+import { formatDateWithTime } from "../../utils/helpter";
 
-const CartCheckout = () => {
+const CartCheckout: React.FC<{ carts: any }> = ({ carts }): JSX.Element => {
   const [Razorpay] = useRazorpay();
   const { TotalPrice } = useContext(CartContext);
 
-  // const handleClick = async(event:any)=>{
-  //     event.preventDefault();
-  //     const stripe = await loadStripe("pk_test_51PNZZDEqEj8PZfPPpYnWzAddH1A5uikuhFmlOgkbnuHkastTtNTJ6ITSoslbTkVbjt5WPkyfE9dXiv3aQ1rKJoZP00RInShcg8");
-  //     const body = {
-  //         amount: TotalPrice,
-  //         eventId: 12,
-  //         eventName: "Purchasing Products",
-  //     }
-  //     // const response = await apiRequest('stripe',"POST",body)
-  //     const response = await EcommerceClient.post('payment/stripe',body);
-  //     const session = response.data;
-  //     const result = stripe?.redirectToCheckout({sessionId: session.id});
-  // }
+  const convertTostring = () => {
+    const arr = [];
+    for (const product of carts) arr.push({ id: product.id, qty: product.qty });
+    return JSON.stringify(arr);
+  };
 
   const handlePayment = async () => {
     try {
@@ -50,15 +43,31 @@ const CartCheckout = () => {
       description: "Test Mode",
       order_id: data.id,
       handler: async (response: any) => {
-        console.log("response", response);
 
         try {
           const body = {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
-            amount: (data.amount/100),
+            amount: data.amount / 100,
           };
+
+          const orderbody = {
+            amount: data.amount / 100,
+            productDetails: convertTostring(),
+            date:formatDateWithTime(new Date())
+          };
+
+          const orderresponse = await EcommerceClient.post(
+            "order/addOrder",
+            orderbody,
+            {
+              headers: {
+                "content-type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
 
           const res = await EcommerceClient.post("payment/verify", body, {
             headers: {

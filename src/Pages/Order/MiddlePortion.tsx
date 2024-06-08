@@ -11,7 +11,6 @@ const MiddlePortion: React.FC = (): JSX.Element => {
       const result = await EcommerceClient.get("/user/orders", {
         withCredentials: true,
       });
-      console.log(result)
       setOrder(result.data);
     };
     fetchOrders();

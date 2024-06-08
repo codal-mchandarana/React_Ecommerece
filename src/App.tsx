@@ -14,6 +14,7 @@ import Profile from './Pages/Profile/Profile'
 import Faq from "./FAQ/Faq";
 import Footer from "./Pages/Footer/Footer";
 import Order from './Pages/Order/Order'
+import OrderDetails from './Pages/OrderDetails/OrderDetails'
 
 // https://themewagon.github.io/malefashion/index.html
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <Order />
+      },
+      {
+        path: "/order-details",
+        element: <OrderDetails/>
       },
       {
         path: "/pdp/:id",

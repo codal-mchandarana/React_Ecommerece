@@ -17,7 +17,6 @@ const ProductImage: React.FC<product> = ({ currentProduct }): JSX.Element => {
   const { carts, AddItemCarts, isLogin } = useContext(CartContext);
   const { wishlistItems, AddItemsWishlist } = useContext(WishlistContext);
   const [category, setCategory] = useState("");
-  console.log("Hello",category)
 
   useEffect(() => {
     const fetchCateogry = async () => {

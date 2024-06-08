@@ -50,7 +50,7 @@ const Cart: React.FC = (): JSX.Element => {
                             </div>
                             <CartFooter />
                         </div>
-                        <CartCheckout />
+                        <CartCheckout carts={carts} />
                     </div>
                 </div>
             </section>
