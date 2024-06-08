@@ -25,7 +25,7 @@ const OrderItems: React.FC<orderItem> = ({ data }) => {
             <span>{data.razorpay_payment_id}</span>
           </div>
           <div className={Classes.actions}>
-            <span className={`${Classes.action} text-success`}>
+            <span className={`${Classes.action} text-danger`}>
               ${data.amount}
             </span>
           </div>
