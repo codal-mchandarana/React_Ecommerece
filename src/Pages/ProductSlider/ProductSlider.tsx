@@ -1,30 +1,31 @@
 import Classes from "./ProductSlider.module.css";
 import SliderItem from "./SliderItem";
 import { useEffect, useState } from "react";
-import {
-  fetchItems,
-  fetchSliderItems,
-  fetchSliderItemsImage,
-} from "../../axios/api";
+import { fetchSliderItems, fetchSliderItemsImage } from "../../axios/api";
+import SpinnerComponent from "../Spinner/SpinnerComponent";
 
 const ProductSlider: React.FC = (): JSX.Element => {
   const [data, setData] = useState([]);
+  const [Loading, setLoading] = useState(false);
+
+  const fetchSliderProductDetails = async () => {
+    setLoading(true);
+    let newData = await fetchSliderItems();
+    let newData1 = await fetchSliderItemsImage();
+
+    for (let index = 0; index < newData.length; index++) {
+      newData[index].images = newData1[index];
+    }
+    setLoading(false);
+    setData(newData);
+  };
 
   useEffect(() => {
-    const fetchSliderProductDetails = async () => {
-      let newData = await fetchSliderItems();
-      let newData1 = await fetchSliderItemsImage();
-
-      for (let index = 0; index < newData.length; index++) {
-        newData[index].images = newData1[index];
-      }
-      setData(newData);
-    };
     fetchSliderProductDetails();
   }, []);
 
   return (
-    <>
+    Loading?<SpinnerComponent/>:<>
       <div className={Classes.container}>
         <div className={Classes.text}>GIFTS UNDER $100</div>
         <div
