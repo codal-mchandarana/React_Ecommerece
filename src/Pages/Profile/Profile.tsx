@@ -20,6 +20,7 @@ const initialValues = {
   country: "",
   gender: "",
   age: "",
+  image_name:""
 };
 
 const Profile: React.FC = (): JSX.Element => {

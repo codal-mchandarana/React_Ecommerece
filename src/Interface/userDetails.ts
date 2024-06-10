@@ -8,4 +8,5 @@ export interface userDetails{
     country:string,
     gender:string,
     age:string
+    image_name:string,
 }
