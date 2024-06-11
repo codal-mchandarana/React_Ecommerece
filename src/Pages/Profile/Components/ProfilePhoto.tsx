@@ -102,6 +102,13 @@ const ProfilePhoto: React.FC<{ userDetails: userDetails }> = ({
           <span className={Classes.text_black_50}>{userDetails.email}</span>
         </div>
       </div>
+      <style>
+        {`
+          img:hover{
+            opacity:0.8
+          }
+        `}
+      </style>
     </>
   );
 };
