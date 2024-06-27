@@ -13,14 +13,14 @@ const MiddlePortion: React.FC = (): JSX.Element => {
       const products = await EcommerceClient.get("product");
       const productsArray = products?.data;
 
-      const result = await EcommerceClient.get("order/getOrders", {
+      const result = await EcommerceClient.get("order/getOrdersAws", {
         withCredentials: true,
       });
       const orders = [];
 
       for (const element of result.data) {
         const order = [];
-        const particularOrder = JSON.parse(element.productDetails);
+        const particularOrder = element.productDetails;
 
         for (const element1 of particularOrder) {
           let obj = productsArray.find((val: any) => {

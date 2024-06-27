@@ -1,7 +1,6 @@
 import OrderItem from "./OrderItem";
 
 const OrderDetailsItem: React.FC<{ carts: any }> = ({ carts }): JSX.Element => {
-  console.log(carts);
   return (
     <>
       <section className="h-100 gradient-custom">
