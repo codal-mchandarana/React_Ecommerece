@@ -67,7 +67,7 @@ const Login1: React.FC = (): JSX.Element => {
 
   const handleClick = async () => {
     try {
-      const response = await EcommerceClient.get("auth/google/");
+      window.open(`${process.env.REACT_APP_BACKEND_URL}/auth/google`,"_self")
     } catch (err) {
       console.log(err);
     }

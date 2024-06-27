@@ -2,16 +2,17 @@ import Classes from "../Wishlist/Wishlist.module.css";
 import calculateOriginalPrice from "../../utils/Calculate";
 
 interface orderItem {
-  data: any;
+  data: any,
+  index:any
 }
 
-const OrderItems: React.FC<orderItem> = ({ data }) => {
+const OrderItems: React.FC<orderItem> = ({index, data }) => {
   return (
     <>
       <div className={Classes.wishlist_body}>
         <div className={Classes.order_item}>
           <div className={Classes.product_info}>
-            <div>{data.id}</div>
+            <div>{index+1}</div>
           </div>
           <div className={Classes.product_info}>
             <div

@@ -53,13 +53,13 @@ const CartCheckout: React.FC<{ carts: any }> = ({ carts }): JSX.Element => {
           };
 
           const orderbody = {
-            amount: data.amount / 100,
-            productDetails: convertTostring(),
+            amount: TotalPrice.toFixed(2),
+            productDetails: carts,
             date:formatDateWithTime(new Date())
           };
 
           const orderresponse = await EcommerceClient.post(
-            "order/addOrder",
+            "order/addOrderAws",
             orderbody,
             {
               headers: {

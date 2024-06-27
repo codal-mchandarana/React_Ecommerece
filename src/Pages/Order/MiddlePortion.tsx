@@ -27,8 +27,8 @@ const MiddlePortion: React.FC = (): JSX.Element => {
             <div>Payment id</div>
             <div>Amount</div>
           </div>
-          {order.map((value) => {
-            return <OrderItems data={value} />;
+          {order.map((value,index) => {
+            return <OrderItems index={index} data={value} />;
           })}
         </div>
       </div>
